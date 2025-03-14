@@ -4,6 +4,9 @@ import routes from "../routers";
 import { errors } from "celebrate";
 import morgan from "morgan";
 import { createServer } from "http";
+import models from "../models";
+
+const { sequelize } = models;
 /* import http from "http"; */
 
 class Server {
@@ -26,6 +29,12 @@ class Server {
   listen() {
     this.server.listen(this.port, () => {
       console.log(`Express running on ${this.port}`);
+      sequelize
+        .sync({ alter: true })
+        .then(() => console.log("Database is connected"))
+        .catch((err) =>
+          console.error("Error connecting to the database:", err)
+        );
     });
   }
 
