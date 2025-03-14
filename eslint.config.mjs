@@ -19,6 +19,7 @@ export default [
       "prettier/prettier": "error",
       "no-unused-vars": "warn",
       "no-console": "off",
+      "linebreak-style": ["error", "windows"],
     },
   },
   eslintConfigPrettier,
