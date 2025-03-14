@@ -2,6 +2,7 @@ import { sign, verify } from "jsonwebtoken";
 import auth from "../config/auth";
 
 export const createTokens = (payload) => {
+  console.log(payload);
   const { secretKey, accessExpire, refreshExpire } = auth;
   const accessToken = sign(payload, secretKey, { expiresIn: accessExpire });
   const refreshToken = sign({ ...payload, refresh: true }, secretKey, {
