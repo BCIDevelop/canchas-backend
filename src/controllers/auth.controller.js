@@ -8,7 +8,7 @@ import {
   UserBadToken,
   UserPassworsDontMatch,
 } from "../exceptions/users.exceptions";
-import { createTokens } from "../helpers/jwt.js";
+import { createTokens, verifyToken } from "../helpers/jwt.js";
 import { generate } from "generate-password";
 import EmailServer from "../providers/mail.provider";
 
@@ -54,15 +54,16 @@ class AuthController {
       if (confirmPassword !== password) throw new UserPassworsDontMatch();
       const record = this.model.build(body);
       await record.hashPassword();
-      const token = generate({ length: 8, numbers: true });
-      record.token = token;
+      console.log(email);
+      const token = createTokens({ email });
+      console.log(token);
       await record.save();
+      const client_url = process.env.CLIENT_URL;
       await EmailServer.send(
         email,
         "Please confirm you account",
-        `Confirm you account : <button> <a href='${client_url}/confirm?email=${email}&token=${token}'>Confirm account</a> </button>`
+        `Confirm you account : <button> <a href='${client_url}/confirm?email=${email}&token=${token.accessToken}'>Confirm account</a> </button>`
       );
-      const client_url = process.env.CLIENT_URL;
       return res.status(201).json({ record });
     } catch (error) {
       console.log(error);
@@ -93,7 +94,8 @@ class AuthController {
   }
   async confirmAccount(req, res) {
     try {
-      const { email, token } = req.body;
+      const { token } = req.body;
+      const { email } = verifyToken(token);
       const record = await this.model.findOne({
         where: {
           email,

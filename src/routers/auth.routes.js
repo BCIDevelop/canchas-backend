@@ -26,10 +26,6 @@ class AuthRouter {
     const controller = new AuthController();
     controller.signUp(req, res);
   }
-  async refreshToken(req, res) {
-    const controller = new AuthController();
-    controller.refreshToken(req, res);
-  }
 
   async resetPassword(req, res) {
     const controller = new AuthController();
