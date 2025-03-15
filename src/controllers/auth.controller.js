@@ -58,12 +58,12 @@ class AuthController {
       const token = createTokens({ email });
       console.log(token);
       await record.save();
+      const client_url = process.env.CLIENT_URL;
       await EmailServer.send(
         email,
         "Please confirm you account",
         `Confirm you account : <button> <a href='${client_url}/confirm?email=${email}&token=${token.accessToken}'>Confirm account</a> </button>`
       );
-      const client_url = process.env.CLIENT_URL;
       return res.status(201).json({ record });
     } catch (error) {
       console.log(error);
