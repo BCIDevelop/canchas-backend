@@ -3,9 +3,11 @@ import Validation from "../validations/auth.validations.js";
 import AuthController from "../controllers/auth.controller";
 
 class AuthRouter {
+
   constructor() {
     this.router = Router();
   }
+  
   init() {
     return this.router
       .post("/signIn", Validation.signIn(), this.signIn)
@@ -18,10 +20,12 @@ class AuthRouter {
     const controller = new AuthController();
     controller.confirmAccount(req, res);
   }
+
   async signIn(req, res) {
     const controller = new AuthController();
     controller.signIn(req, res);
   }
+
   async signUp(req, res) {
     const controller = new AuthController();
     controller.signUp(req, res);
@@ -31,5 +35,21 @@ class AuthRouter {
     const controller = new AuthController();
     controller.resetPassword(req, res);
   }
+
+  async sendOtpSMS(req, res) {
+    const controller = new AuthController();
+    controller.sendOtpSMS(req, res);
+  }
+
+  async verifyOtpSMS(req, res) {
+    const controller = new AuthController();
+    controller.verifyOtpSMS(req, res);
+  }
+
+  async resetPasswordSMS(req, res) {
+    const controller = new AuthController();
+    controller.resetPasswordSMS(req, res);
+  }
 }
+
 export default new AuthRouter();
