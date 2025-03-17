@@ -17,6 +17,7 @@ class Server {
   }
 
   middleware() {
+    this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(morgan("dev"));
     this.app.use(cors({ origin: "*", credentials: true }));
