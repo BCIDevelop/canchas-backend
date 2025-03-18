@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 const order = [
   "users.seed.js",
+  "admins.seed.js",
   "instalaciones.seed.js",
   "deportes.seed.js",
   "tipos.seed.js",
