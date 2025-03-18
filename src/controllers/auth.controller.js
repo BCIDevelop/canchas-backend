@@ -1,7 +1,6 @@
 import models from "../models";
 import admin from "firebase-admin";
 import bcrypt from "bcryptjs";
-import dotenv from "dotenv";
 
 import {
   UserNotFound,
@@ -20,12 +19,11 @@ import { OAuth2Client } from "google-auth-library";
 import { validateEmail, validatePassword } from "../helpers/validateRequest";
 
 // Inicializar Firebase con las credenciales :
-const serviceAccount = require("../../firebase-config.json");
+/* const serviceAccount = require("../../firebase-config.json");
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
-dotenv.config();
+dotenv.config(); */
 
 class AuthController {
-
   constructor() {
     this.model = models.users;
   }
@@ -157,7 +155,6 @@ class AuthController {
 
   // Enviar código OTP por SMS :
   async sendOtpSMS(req, res) {
-
     try {
       const { celphone } = req.body;
       const user = await this.model.findOne({ where: { celphone } });
@@ -167,65 +164,54 @@ class AuthController {
       // Crear un token personalizado con Firebase :
       const customToken = await admin.auth().createCustomToken(celphone);
 
-      return res
-        .status(200)
-        .json({
-          message: 'Código OTP enviado correctamente',
-          customToken
-        });
-
+      return res.status(200).json({
+        message: "Código OTP enviado correctamente",
+        customToken,
+      });
     } catch (error) {
       console.error({
-        message: 'Error interno al enviar el OPD por SMS',
-        error: error.message
+        message: "Error interno al enviar el OPD por SMS",
+        error: error.message,
       });
 
-      return res
-        .status(error?.code || 500)
-        .json({
-          message: 'Error interno al enviar el OTP por SMS',
-          error: error.message
-        });
+      return res.status(error?.code || 500).json({
+        message: "Error interno al enviar el OTP por SMS",
+        error: error.message,
+      });
     }
   }
 
   // Verificar el código OTP y permitir la recuperación de contraseña :
   async verifyOtpSMS(req, res) {
-
     try {
       const { celphone, customToken } = req.body;
       const decoded = await admin.auth().verifyIdToken(customToken);
 
-      if (decoded.phone_number !== celphone) return res
-        .status(400)
-        .json({ message: 'Código inválido' });
+      if (decoded.phone_number !== celphone)
+        return res.status(400).json({ message: "Código inválido" });
 
       // Crear un token de sesión para cambiar la contraseña :
       const token = createTokens({ phone });
 
-      return res
-        .status(200)
-        .json({
-          message: "Código OTP verificado con éxito",
-          token
-        });
-
+      return res.status(200).json({
+        message: "Código OTP verificado con éxito",
+        token,
+      });
     } catch (error) {
-      return res
-        .status(400)
-        .json({
-          message: "Código inválido o expirado"
-        });
+      return res.status(400).json({
+        message: "Código inválido o expirado",
+      });
     }
   }
 
   // Reestablecer contraseña con el token generado :
   async resetPasswordSMS(req, res) {
-
     try {
       const { token, newPassword } = req.body;
       const decoded = verifyToken(token);
-      const user = await this.model.findOne({ where: { phone: decoded.phone } });
+      const user = await this.model.findOne({
+        where: { phone: decoded.phone },
+      });
       if (!user) throw new UserNotFound();
       if (!user.active_status) throw new UserInactive();
 
@@ -234,21 +220,18 @@ class AuthController {
       user.password = hashedPassword;
       await user.save();
 
-      return res
-        .status(200)
-        .json({
-          message: 'Contraseña actualizada con éxito'
-        });
-
+      return res.status(200).json({
+        message: "Contraseña actualizada con éxito",
+      });
     } catch (error) {
       console.error({
-        message: 'Error restableciendo contraseña:',
-        error: error.message
+        message: "Error restableciendo contraseña:",
+        error: error.message,
       });
 
       return res
         .status(error?.code || 500)
-        .json({ message: 'Token inválido o expirado' });
+        .json({ message: "Token inválido o expirado" });
     }
   }
 }

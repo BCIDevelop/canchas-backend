@@ -1,11 +1,10 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes } from "sequelize";
 
 class PagoModel extends Model {
-
   static associate(models) {
     this.belongsTo(models.reservas, {
-      foreignKey: 'id_reserva',
-      as: 'reserva',
+      foreignKey: "id_reserva",
+      as: "reserva",
     });
   }
 
@@ -17,22 +16,22 @@ class PagoModel extends Model {
           allowNull: true,
         },
         monto: {
-          type: DataTypes.DECIMAL(10,2)
+          type: DataTypes.DECIMAL(10, 2),
         },
         id_reserva: {
           type: DataTypes.INTEGER,
           references: {
-            model: 'reservas',
-            key: 'id'
+            model: "reservas",
+            key: "id",
           },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
-        }
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
+        },
       },
       {
         sequelize,
-        tableName: 'pagos',
-        modelName: 'pagos',
+        tableName: "pagos",
+        modelName: "pagos",
       }
     );
   }
