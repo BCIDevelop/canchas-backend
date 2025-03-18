@@ -14,12 +14,14 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
     this.server = createServer(this.app);
+    this.client = process.env.CLIENT_URL;
   }
 
   middleware() {
+    this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(morgan("dev"));
-    this.app.use(cors({ origin: "*", credentials: true }));
+    this.app.use(cors({ origin: this.client, credentials: true }));
   }
   routers() {
     routes(this.app);

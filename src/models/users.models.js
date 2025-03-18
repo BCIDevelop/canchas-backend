@@ -31,6 +31,7 @@ class UserModel extends Model {
         celphone: {
           type: DataTypes.STRING,
           unique: true,
+          allowNull: true,
         },
         dni: {
           type: DataTypes.STRING,
