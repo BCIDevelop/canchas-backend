@@ -2,7 +2,11 @@ import models from "../models";
 import EmailServer from "../providers/mail.provider";
 import { validateEmail } from "../helpers/validateRequest";
 import axios, { AxiosError } from "axios";
-import { TokenNotObtained } from "../exceptions/pagos.exceptions";
+import {
+  PagosNotFound,
+  TokenNotObtained,
+} from "../exceptions/pagos.exceptions";
+
 const getTokenSecurity = async () => {
   const encodedCredentials = Buffer.from(
     `${process.env.USER_NUIBIZ}:${process.env.PASSWORD_NUIBIZ}`
@@ -25,6 +29,19 @@ class PagoContoller {
   constructor() {
     this.model = models.pagos;
   }
+
+  async getPagoById(req, res) {
+    console.log("entre");
+    try {
+      const id = req.params.id;
+      const response = await this.model.findOne({ where: { id } });
+      if (!response) throw new PagosNotFound();
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(error?.code || 500).json({ message: error.message });
+    }
+  }
+
   async getSessionToken(req, res) {
     /* 1er paso getSecurityInfo */
 
@@ -76,34 +93,48 @@ class PagoContoller {
   async getTransactionToken(req, res) {
     console.log(req.body.transactionToken);
     const id = req.query.id;
-    const record = await this.model.findOne({ where: { id } });
-    if (!record) {
-      return res.status(404).json({ message: "Registro no encontrado" });
+    try {
+      const record = await this.model.findOne({ where: { id } });
+      if (!record) {
+        return res.status(404).json({ message: "Registro no encontrado" });
+      }
+      const transactionHeaders = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: record.security_token,
+        },
+      };
+      const data = {
+        channel: "web",
+        captureType: "manual",
+        countable: true,
+        order: {
+          tokenId: req.body.transactionToken,
+          purchaseNumber: id,
+          amount: 10.5,
+          currency: "PEN",
+        },
+      };
+      const transactionResponse = await axios.post(
+        `${process.env.AUTHORIZATION_URL}/${process.env.MERCHANT_ID}`,
+        data,
+        transactionHeaders
+      );
+      /* Si es exitosa procedemos a crear la boleta o factura */
+      console.log(transactionResponse.data);
+      if (transactionResponse.status === 200) {
+        return res.redirect(
+          `${process.env.CLIENT_URL}/payment/success?id=${id}`
+        );
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return res.status(error.response?.status || 500).json({
+          message: error.response?.statusText || error.message,
+        });
+      }
+      return res.status(error?.code || 500).json({ message: error.message });
     }
-    const transactionHeaders = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: record.security_token,
-      },
-    };
-    const data = {
-      channel: "web",
-      captureType: "manual",
-      countable: true,
-      order: {
-        tokenId: req.body.transactionToken,
-        purchaseNumber: id,
-        amount: 10.5,
-        currency: "PEN",
-      },
-    };
-    const transactionResponse = await axios.post(
-      `${process.env.AUTHORIZATION_URL}/${process.env.MERCHANT_ID}`,
-      data,
-      transactionHeaders
-    );
-    /* Si es exitosa procedemos a crear la boleta o factura */
-    console.log(transactionResponse.data);
   }
 }
 export default PagoContoller;
