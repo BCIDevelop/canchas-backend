@@ -122,14 +122,19 @@ class AuthValidation {
   confirmAccount() {
     return this.celebrate({
       [Segments.BODY]: Joi.object().keys({
-        email: Joi.string()
-        .email()
-        .required()
-        .messages({
-          'string.empty': 'El correo electrónico no puede estar vacío.',
-          'string.email': 'Debe ingresar un correo válido.',
-          'any.required': 'El correo electrónico es obligatorio.'
-        }),
+        token: Joi.string()
+          .required()
+          .messages({
+            'string.empty': 'El token no puede estar vacío.',
+            'any.required': 'El tokem es obligatorio'
+          }),
+      }),
+    });
+  }
+  
+  loginGmailOAuth() {
+    return this.celebrate({
+      [Segments.BODY]: Joi.object().keys({
         token: Joi.string()
           .required()
           .messages({

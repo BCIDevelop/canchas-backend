@@ -13,9 +13,14 @@ class AuthRouter {
       .post("/signIn", Validation.signIn(), this.signIn)
       .post("/reset_password", Validation.resetPassword(), this.resetPassword)
       .post("/signUp", Validation.signUp(), this.signUp)
-      .patch("/confirm", Validation.confirmAccount(), this.confirmAccount);
+      .patch("/confirm", Validation.confirmAccount(), this.confirmAccount)
+      .post("/google", Validation.loginGmailOAuth(), this.loginGmailOAuth);
   }
 
+  async loginGmailOAuth(req, res) {
+    const controller = new AuthController();
+    controller.loginGmailOAuth(req, res);
+  }
   async confirmAccount(req, res) {
     const controller = new AuthController();
     controller.confirmAccount(req, res);
