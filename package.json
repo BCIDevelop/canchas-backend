@@ -8,10 +8,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec babel-node src/index.js"
+    "dev": "nodemon --exec babel-node src/index.js",
+    "seed": "babel-node seeders/index.js"
   },
   "dependencies": {
     "axios": "^1.8.3",
+    "babel-plugin-module-resolver": "^5.0.2",
     "bcryptjs": "^3.0.2",
     "celebrate": "^15.0.3",
     "cors": "^2.8.5",
@@ -32,6 +34,7 @@
     "@babel/cli": "^7.26.4",
     "@babel/core": "^7.26.10",
     "@babel/node": "^7.26.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.26.3",
     "@babel/preset-env": "^7.26.9",
     "@eslint/js": "^9.22.0",
     "eslint": "^9.22.0",
