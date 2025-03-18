@@ -1,19 +1,18 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes } from "sequelize";
 
 class ReservaModel extends Model {
-
   static associate(models) {
     this.belongsTo(models.instalaciones, {
-      foreignKey: 'id_instalacion',
-      as: 'instalacion',
+      foreignKey: "id_instalacion",
+      as: "instalacion",
     });
     this.belongsTo(models.tipos, {
-      foreignKey: 'id_cancha',
-      as: 'cancha',
+      foreignKey: "id_cancha",
+      as: "cancha",
     });
     this.belongsTo(models.users, {
-      foreignKey: 'id_user',
-      as: 'user',
+      foreignKey: "id_user",
+      as: "user",
     });
   }
 
@@ -21,50 +20,50 @@ class ReservaModel extends Model {
     return super.init(
       {
         fecha: {
-          type: DataTypes.DATEONLY()
+          type: DataTypes.DATEONLY(),
         },
         hours: {
-          type: DataTypes.ARRAY(DataTypes.INTEGER)
+          type: DataTypes.ARRAY(DataTypes.INTEGER),
         },
         count_hours: {
           type: DataTypes.INTEGER,
         },
         pagado: {
           type: DataTypes.BOOLEAN,
-          defaultValue: false
+          defaultValue: false,
         },
         id_instalacion: {
           type: DataTypes.INTEGER,
           references: {
-            model: 'instalaciones',
-            key: 'id'
+            model: "instalaciones",
+            key: "id",
           },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
         },
         id_cancha: {
           type: DataTypes.INTEGER,
           references: {
-            model: 'canchas',
-            key: 'id'
+            model: "canchas",
+            key: "id",
           },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
         },
         id_user: {
           type: DataTypes.INTEGER,
           references: {
-            model: 'users',
-            key: 'id'
+            model: "users",
+            key: "id",
           },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
-        }
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
+        },
       },
       {
         sequelize,
-        tableName: 'reservas',
-        modelName: 'reservas',
+        tableName: "reservas",
+        modelName: "reservas",
       }
     );
   }

@@ -1,15 +1,14 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes } from "sequelize";
 
 class BoletaModel extends Model {
-
   static associate(models) {
     this.belongsTo(models.pagos, {
-      foreignKey: 'id_pago',
-      as: 'pago',
+      foreignKey: "id_pago",
+      as: "pago",
     });
     this.belongsTo(models.users, {
-      foreignKey: 'id_user',
-      as: 'user',
+      foreignKey: "id_user",
+      as: "user",
     });
   }
 
@@ -18,31 +17,31 @@ class BoletaModel extends Model {
       {
         status: {
           type: DataTypes.BOOLEAN,
-          defaultValue: true
+          defaultValue: true,
         },
         id_pago: {
           type: DataTypes.INTEGER,
           references: {
-            model: 'pagos',
-            key: 'id'
+            model: "pagos",
+            key: "id",
           },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
         },
         id_user: {
           type: DataTypes.INTEGER,
           references: {
-            model: 'users',
-            key: 'id'
+            model: "users",
+            key: "id",
           },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
-        }
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
+        },
       },
       {
         sequelize,
-        tableName: 'boletas',
-        modelName: 'boletas',
+        tableName: "boletas",
+        modelName: "boletas",
       }
     );
   }

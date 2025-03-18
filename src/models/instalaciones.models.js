@@ -1,11 +1,10 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes } from "sequelize";
 
 class InstalacionModel extends Model {
-
   static associate(models) {
     this.belongsTo(models.admins, {
-      foreignKey: 'id_admin',
-      as: 'admin',
+      foreignKey: "id_admin",
+      as: "admin",
     });
   }
 
@@ -13,36 +12,46 @@ class InstalacionModel extends Model {
     return super.init(
       {
         name: {
-          type: DataTypes.STRING
+          type: DataTypes.STRING,
         },
         latitude: {
-          type: DataTypes.DECIMAL(9,6)
+          type: DataTypes.DECIMAL(9, 6),
         },
         longitude: {
-          type: DataTypes.DECIMAL(9,6)
+          type: DataTypes.DECIMAL(9, 6),
         },
         rating: {
           type: DataTypes.FLOAT,
-          allowNull: true
+          allowNull: true,
         },
         status: {
           type: DataTypes.BOOLEAN,
-          defaultValue: true
+          defaultValue: true,
         },
         id_admin: {
           type: DataTypes.INTEGER,
           references: {
-            model: 'admins',
-            key: 'id'
+            model: "admins",
+            key: "id",
           },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
-        }
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
+        },
+        images: {
+          type: DataTypes.ARRAY(DataTypes.STRING),
+        },
+        description: {
+          type: DataTypes.TEXT,
+          allowNull: true,
+        },
+        sports: {
+          type: DataTypes.ARRAY(DataTypes.STRING),
+        },
       },
       {
         sequelize,
-        tableName: 'instalaciones',
-        modelName: 'instalaciones',
+        tableName: "instalaciones",
+        modelName: "instalaciones",
       }
     );
   }

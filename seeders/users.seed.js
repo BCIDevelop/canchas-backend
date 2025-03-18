@@ -1,7 +1,7 @@
-import models from "../src/models/index.js"; // Importa correctamente
+import models from "../src/models/index.js";
 import { hashSync, genSaltSync } from "bcryptjs";
 import auth from "../src/config/auth.js";
-import dotenv from "dotenv/config.js"; // Importa dotenv en ESM
+import dotenv from "dotenv/config.js";
 const { users } = models;
 async function seedUsers() {
   console.log("🌱 Seeding Users...");
@@ -15,6 +15,7 @@ async function seedUsers() {
 
   await users.bulkCreate([
     {
+      id: 1,
       name: "admin",
       email: "admin@example.com",
       celphone: "923456789",
