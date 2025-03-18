@@ -43,6 +43,7 @@ class AdminModel extends Model {
         },
         comment: {
           type: DataTypes.STRING,
+          allowNull: true,
         },
         status: {
           type: DataTypes.BOOLEAN,

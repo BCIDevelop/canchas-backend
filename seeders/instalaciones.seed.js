@@ -20,6 +20,7 @@ async function seedInstalaciones() {
         ],
 
         rating: 4.5,
+        id_admin: 1,
         sports: ["Futbol", "Voley"],
       },
       {
@@ -36,6 +37,7 @@ async function seedInstalaciones() {
         ],
 
         rating: 4.5,
+        id_admin: 1,
         sports: ["Futbol", "Voley", "Basquet"],
       },
       {
@@ -51,6 +53,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 3.3,
+        id_admin: 1,
       },
       {
         id: 4,
@@ -65,6 +68,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.5,
+        id_admin: 1,
         sports: ["Futbol", "Voley", "Basquet"],
       },
       {
@@ -80,6 +84,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 3.5,
+        id_admin: 1,
       },
       {
         id: 6,
@@ -94,6 +99,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.5,
+        id_admin: 1,
         sports: ["Futbol"],
       },
       {
@@ -109,6 +115,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 3.0,
+        id_admin: 1,
       },
       {
         id: 8,
@@ -123,6 +130,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.5,
+        id_admin: 1,
         sports: ["Futbol", "Voley", "Basquet"],
       },
       {
@@ -138,6 +146,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 3.2,
+        id_admin: 1,
       },
       {
         id: 10,
@@ -152,6 +161,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.5,
+        id_admin: 1,
         sports: ["Futbol", "Voley", "Basquet"],
       },
       {
@@ -167,6 +177,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.8,
+        id_admin: 1,
       },
       {
         id: 12,
@@ -181,6 +192,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.5,
+        id_admin: 1,
         sports: ["Futbol", "Voley", "Basquet"],
       },
       {
@@ -196,6 +208,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.5,
+        id_admin: 1,
         sports: ["Futbol", "Voley", "Basquet"],
       },
       {
@@ -211,6 +224,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.3,
+        id_admin: 1,
       },
       {
         id: 15,
@@ -225,6 +239,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.2,
+        id_admin: 1,
       },
       {
         id: 16,
@@ -239,6 +254,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.0,
+        id_admin: 1,
       },
       {
         id: 17,
@@ -253,6 +269,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 3.5,
+        id_admin: 1,
       },
       {
         id: 18,
@@ -267,6 +284,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.5,
+        id_admin: 1,
         sports: ["Futbol", "Voley", "Basquet"],
       },
       {
@@ -282,6 +300,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 3.8,
+        id_admin: 1,
       },
       {
         id: 20,
@@ -296,6 +315,7 @@ async function seedInstalaciones() {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zd73RvDBdMFd-k73yPRzu_IaUSIsavwQ7w&s",
         ],
         rating: 4.0,
+        id_admin: 1,
       },
     ],
     { ignoreDuplicates: true }
