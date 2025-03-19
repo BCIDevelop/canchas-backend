@@ -5,7 +5,7 @@ import { errors } from "celebrate";
 import morgan from "morgan";
 import { createServer } from "http";
 import models from "../models";
-
+import SocketIO from "./socketio";
 const { sequelize } = models;
 /* import http from "http"; */
 
@@ -46,10 +46,10 @@ class Server {
     this.listen();
     /* this.socketioInit() */
   }
-  /*  socketioInit(){
-        const socket=new SocketIO(this.server)
-        socket.init()
-    } */
+  socketioInit() {
+    const socket = new SocketIO(this.server);
+    socket.init();
+  }
 }
 
 export default new Server();
