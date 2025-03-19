@@ -22,10 +22,10 @@ class CanchaModel extends Model {
   static initModel(sequelize) {
     return super.init(
       {
-        prize_day: {
+        price_day: {
           type: DataTypes.DECIMAL(4,2)
         },
-        prize_night: {
+        price_night: {
           type: DataTypes.DECIMAL(4,2)
         },
         status: {

@@ -25,6 +25,13 @@ class InstalacionModel extends Model {
           type: DataTypes.FLOAT,
           allowNull: true
         },
+        images: {
+          type: DataTypes.ARRAY(DataTypes.STRING)
+        },
+        description: {
+          type: DataTypes.TEXT,
+          allowNull: true
+        },
         status: {
           type: DataTypes.BOOLEAN,
           defaultValue: true

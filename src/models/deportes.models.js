@@ -19,7 +19,7 @@ class DeporteModel extends Model {
         },
         status: {
           type: DataTypes.BOOLEAN,
-          defaultValue: false
+          defaultValue: true
         }
       },
       {
