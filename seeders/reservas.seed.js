@@ -1,7 +1,7 @@
 import models from "../src/models/index.js";
 const { reservas } = models;
 
-async function seedReservas() {
+export default async function seedReservas() {
   console.log("🌱 Seeding Reservas...");
   const today = new Date();
   const fecha = today.toISOString().split("T")[0];
@@ -50,5 +50,3 @@ async function seedReservas() {
 
   console.log("✅ Reservas seeded successfully!");
 }
-
-seedReservas().catch(console.error);

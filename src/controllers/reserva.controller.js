@@ -1,9 +1,11 @@
 import models from "../models";
 import { SportNotAllowed } from "../exceptions/deporte.exceptions";
+import { ReservaOutOfDate } from "../exceptions/reservas.exceptions";
 
 class ReservaController {
   constructor() {
     this.model = models.reservas;
+    this.model_canchas = models.canchas;
   }
   async getAvailableHours(req, res) {
     const { instalacion_id, fecha, deporte } = req.body;
@@ -12,8 +14,10 @@ class ReservaController {
     if (!allowedSports.includes(deporte)) {
       throw new SportNotAllowed();
     }
+    /* Validamos fecha */
+    if (new Date(fecha) < new Date()) throw new ReservaOutOfDate();
     try {
-      const canchasInstalacion = await models.canchas.findAll({
+      const canchasInstalacion = await this.model_canchas.findAll({
         where: { id_instalacion: instalacion_id },
       });
     } catch (error) {}
