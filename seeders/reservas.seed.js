@@ -24,8 +24,8 @@ export default async function seedReservas() {
     },
     {
       fecha: fecha,
-      hours: [13, 14],
-      count_hours: 2,
+      hours: [19],
+      count_hours: 1,
       id_instalacion: 1,
       id_cancha: 1,
       id_user: 1,

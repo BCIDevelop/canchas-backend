@@ -13,6 +13,7 @@ const config = {
       createdAt: "created_at",
       updatedAt: "updated_at",
     },
+    logging: false,
   },
   production: {
     database: process.env.DB_NAME,
