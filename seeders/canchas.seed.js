@@ -1,7 +1,7 @@
 import models from "../src/models/index.js";
 const { canchas } = models;
 
-async function seedCanchas() {
+export default async function seedCanchas() {
   console.log("🌱 Seeding Canchas...");
 
   await canchas.bulkCreate([
@@ -190,5 +190,3 @@ async function seedCanchas() {
   ]);
   console.log("✅ Canchas seeded successfully!");
 }
-
-seedCanchas().catch(console.error);

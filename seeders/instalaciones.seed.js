@@ -1,7 +1,7 @@
 import models from "../src/models/index.js";
 const { instalaciones } = models;
 
-async function seedInstalaciones() {
+export default async function seedInstalaciones() {
   console.log("🌱 Seeding Instalaciones...");
 
   await instalaciones.bulkCreate(
@@ -323,4 +323,3 @@ async function seedInstalaciones() {
 
   console.log("✅ Instalaciones seeded successfully!");
 }
-seedInstalaciones().catch(console.error);

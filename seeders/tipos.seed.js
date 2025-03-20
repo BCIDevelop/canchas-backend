@@ -1,7 +1,7 @@
 import models from "../src/models/index.js";
 const { tipos } = models;
 
-async function seedTipos() {
+export default async function seedTipos() {
   console.log("🌱 Seeding Tipos...");
 
   await tipos.bulkCreate([
@@ -21,5 +21,3 @@ async function seedTipos() {
 
   console.log("✅ tIPOS seeded successfully!");
 }
-
-seedTipos().catch(console.error);

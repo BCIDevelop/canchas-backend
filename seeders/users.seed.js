@@ -3,7 +3,7 @@ import { hashSync, genSaltSync } from "bcryptjs";
 import auth from "../src/config/auth.js";
 import dotenv from "dotenv/config.js";
 const { users } = models;
-async function seedUsers() {
+export default async function seedUsers() {
   console.log("🌱 Seeding Users...");
 
   const password = process.env.PASSWORD_ADMIN;
@@ -28,4 +28,3 @@ async function seedUsers() {
 
   console.log("✅ Users seeded successfully!");
 }
-seedUsers().catch(console.error);
