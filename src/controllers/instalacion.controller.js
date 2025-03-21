@@ -52,6 +52,26 @@ class InstalacionController {
 
       const response = await this.model.findAndCountAll({
         where: whereCondition,
+        distinct: true,
+        include: [
+          {
+            model: models.canchas,
+            as: "canchas",
+            attributes: ["id"],
+            include: [
+              {
+                model: models.deportes,
+                as: "deportes",
+                attributes: ["id", "name"],
+              },
+              {
+                model: models.tipos,
+                as: "tipo",
+                attributes: ["id", "name"],
+              },
+            ],
+          },
+        ],
         limit: safeLimit,
         offset,
         order: [["name", "ASC"]],
@@ -66,10 +86,52 @@ class InstalacionController {
           totalPages
         );
 
+      const result = response.rows.map((instalacion) => {
+        const tiposSet = new Map();
+        const deportesSet = new Map();
+        const canchaIds = [];
+
+        instalacion.canchas.forEach((cancha) => {
+          if (cancha.id) canchaIds.push(cancha.id);
+
+          if (cancha.tipo && !tiposSet.has(cancha.tipo.id)) {
+            tiposSet.set(cancha.tipo.id, {
+              id: cancha.tipo.id,
+              name: cancha.tipo.name,
+            });
+          }
+
+          if (cancha.deportes && Array.isArray(cancha.deportes)) {
+            cancha.deportes.forEach((deporte) => {
+              if (!deportesSet.has(deporte.id)) {
+                deportesSet.set(deporte.id, {
+                  id: deporte.id,
+                  name: deporte.name,
+                });
+              }
+            });
+          }
+        });
+
+        return {
+          id: instalacion.id,
+          name: instalacion.name,
+          latitude: instalacion.latitude,
+          longitude: instalacion.longitude,
+          images: instalacion.images,
+          rating: instalacion.rating,
+          description: instalacion.description,
+          id_admin: instalacion.id_admin,
+          canchas: canchaIds,
+          tipos: Array.from(tiposSet.values()),
+          deportes: Array.from(deportesSet.values()),
+        };
+      });
+
       return res.status(200).json({
         message: "Instalaciones obtenidas exitosamente",
         data: {
-          data: response.rows,
+          data: result,
           currentPage: page,
           pageCount: response.rows.length,
           totalCount: response.count,
