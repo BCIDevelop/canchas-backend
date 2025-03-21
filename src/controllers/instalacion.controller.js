@@ -93,9 +93,12 @@ class InstalacionController {
 
         const tiposSet = new Map();
         const deportesSet = new Map();
+        const canchaIds = [];
 
         instalacion.canchas.forEach(cancha => {
-          // Tipos
+
+          if (cancha.id) canchaIds.push(cancha.id);
+          
           if (cancha.tipo && !tiposSet.has(cancha.tipo.id)) {
             tiposSet.set(cancha.tipo.id, {
               id: cancha.tipo.id,
@@ -103,7 +106,6 @@ class InstalacionController {
             });
           }
 
-          // Deportes
           if (cancha.deportes && Array.isArray(cancha.deportes)) {
             cancha.deportes.forEach(deporte => {
               if (!deportesSet.has(deporte.id)) {
@@ -125,6 +127,7 @@ class InstalacionController {
           rating: instalacion.rating,
           description: instalacion.description,
           id_admin: instalacion.id_admin,
+          canchas: canchaIds,
           tipos: Array.from(tiposSet.values()),
           deportes: Array.from(deportesSet.values())
         };
