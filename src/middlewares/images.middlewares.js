@@ -139,7 +139,14 @@ class ImageUploader {
     });
   }
 
-  // Middleware para manejar errores y eliminar archivos si hay un fallo
+    // Middleware para manejar errores y eliminar archivos si hay un fallo en las validaciones :
+    cleanupOnValidationError = (err, req, res, next) => {
+
+      this.cleanupFiles(req);
+      next(err);
+    }
+
+  // Middleware para manejar errores y eliminar archivos si hay un fallo en la creación o actualización :
   cleanupOnError = (err, req, res, next) => {
 
     this.cleanupFiles(req);
