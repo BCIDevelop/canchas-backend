@@ -25,11 +25,11 @@ class InstalacionModel extends Model {
           allowNull: true,
         },
         images: {
-          type: DataTypes.ARRAY(DataTypes.STRING)
+          type: DataTypes.ARRAY(DataTypes.STRING),
         },
         description: {
           type: DataTypes.TEXT,
-          allowNull: true
+          allowNull: true,
         },
         status: {
           type: DataTypes.BOOLEAN,

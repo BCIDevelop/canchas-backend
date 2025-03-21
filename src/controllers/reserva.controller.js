@@ -14,6 +14,7 @@ class ReservaController {
     this.model = models.reservas;
     this.model_canchas = models.canchas;
     this.model_cancha_deporte = models.cancha_deporte;
+    this.model_instalaciones = models.instalaciones;
     this.utcOffset = -5;
     this.today = new Date(
       new Date().getTime() + this.utcOffset * 60 * 60 * 1000
@@ -243,6 +244,11 @@ class ReservaController {
     } catch (error) {
       return res.status(error?.code || 500).json({ message: error.message });
     }
+  }
+
+  async getInstalacionesByHour() {
+    const { instalacion_id, date: fecha, deporte_id, canchas, hour } = req.body;
+    
   }
 }
 export default ReservaController;

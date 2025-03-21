@@ -69,7 +69,7 @@ class InstalacionController {
       return res.status(200).json({
         message: "Instalaciones obtenidas exitosamente",
         data: {
-          data: response.data,
+          data: response.rows,
           currentPage: page,
           pageCount: response.rows.length,
           totalCount: response.count,
