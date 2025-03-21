@@ -20,8 +20,8 @@ class InstalacionRouter {
         this.uploader_update.multerError,
         this.uploader_create.validateTotalImages,
         Validations.createInstalacion(),
-        this.uploader_create.cleanupOnError,
-        this.createInstalacion
+        this.createInstalacion,
+        this.uploader_create.cleanupOnValidationError,
       )
       .patch('/:id',
         this.uploader_update.uploadImage,

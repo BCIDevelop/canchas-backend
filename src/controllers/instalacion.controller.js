@@ -1,4 +1,5 @@
 import models from '../models';
+import path from 'path';
 import ImageUploader from '../middlewares/images.middlewares';
 
 import {
@@ -94,7 +95,7 @@ class InstalacionController {
   }
 
   // Controlador para crear una instalación :
-  async createInstalacion(req, res) {
+  async createInstalacion(req, res, next) {
 
     const { id_admin, name, latitude, longitude, description } = req.body;
 
@@ -105,12 +106,16 @@ class InstalacionController {
       if (!validate) throw new AdminNotFound();
       if (!validate.status) throw new AdminInactive();
 
+      const images = [];
+      for (const file of req.files) images.push(path.join('uploads', 'fotos', file.filename).replace(/\\/g, '/'));
+
       const response = await this.model.create({
         id_admin,
         name,
         latitude,
         longitude,
-        description
+        description,
+        images
       });
 
       return res
