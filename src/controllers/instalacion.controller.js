@@ -26,7 +26,22 @@ class InstalacionController {
     const { id } = req.params;
 
     try {
-      const response = await this.model.findByPk(id);
+      const response = await this.model.findOne({
+        where: { status: true },
+        include: [{
+          model: models.canchas,
+          as: 'canchas',
+          attributes: ['id'],
+          include: [
+            {
+            model: models.deportes,
+            as: 'deportes',
+            attributes: ['id', 'name']
+            }
+          ]
+        }]
+      });
+
       if (!response) throw new InstalacionNotFound();
       if (!response.status) throw new InstalacionInactive();
       return res
