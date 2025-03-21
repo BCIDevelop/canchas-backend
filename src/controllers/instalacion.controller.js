@@ -9,6 +9,7 @@ import {
 } from "../exceptions/instalaciones.exceptions";
 
 import { AdminNotFound, AdminInactive } from "../exceptions/admins.exceptions";
+import { required } from "joi";
 
 class InstalacionController {
   constructor() {
@@ -53,6 +54,9 @@ class InstalacionController {
       const response = await this.model.findAndCountAll({
         where: whereCondition,
         distinct: true,
+        attributes: {
+          exclude: ["created_at", "updated_at", "status"],
+        },
         include: [
           {
             model: models.canchas,
@@ -63,6 +67,7 @@ class InstalacionController {
                 model: models.deportes,
                 as: "deportes",
                 attributes: ["id", "name"],
+                through: { attributes: [] },
               },
               {
                 model: models.tipos,
@@ -88,31 +93,19 @@ class InstalacionController {
 
       const result = response.rows.map((instalacion) => {
         const tiposSet = new Map();
-        const deportesSet = new Map();
-        const canchaIds = [];
-
-        instalacion.canchas.forEach((cancha) => {
-          if (cancha.id) canchaIds.push(cancha.id);
-
+        const canchas = [];
+        instalacion.canchas.forEach((cancha, index) => {
           if (cancha.tipo && !tiposSet.has(cancha.tipo.id)) {
             tiposSet.set(cancha.tipo.id, {
               id: cancha.tipo.id,
               name: cancha.tipo.name,
             });
+
+            canchas.push({ id: cancha.id, deportes: cancha.deportes });
           }
 
-          if (cancha.deportes && Array.isArray(cancha.deportes)) {
-            cancha.deportes.forEach((deporte) => {
-              if (!deportesSet.has(deporte.id)) {
-                deportesSet.set(deporte.id, {
-                  id: deporte.id,
-                  name: deporte.name,
-                });
-              }
-            });
-          }
+          console.log(instalacion.canchas[index].tipo);
         });
-
         return {
           id: instalacion.id,
           name: instalacion.name,
@@ -122,9 +115,9 @@ class InstalacionController {
           rating: instalacion.rating,
           description: instalacion.description,
           id_admin: instalacion.id_admin,
-          canchas: canchaIds,
+          canchas,
           tipos: Array.from(tiposSet.values()),
-          deportes: Array.from(deportesSet.values()),
+          sports: instalacion.sports,
         };
       });
 

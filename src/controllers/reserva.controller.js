@@ -4,7 +4,7 @@ import {
   ReservaOutOfDate,
   ReservaTaken,
 } from "../exceptions/reservas.exceptions";
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import { CanchaDeporteNotFound } from "../exceptions/canchas.exceptions";
 import { tranformDateUTCTarget } from "../helpers/formatDate";
 import fs from "fs";
@@ -16,12 +16,104 @@ class ReservaController {
     this.model_cancha_deporte = models.cancha_deporte;
     this.model_instalaciones = models.instalaciones;
     this.utcOffset = -5;
+    this.horasDisponibles = [
+      "00",
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+    ];
     this.today = new Date(
       new Date().getTime() + this.utcOffset * 60 * 60 * 1000
     );
     if (!ReservaController.horariosData) {
       const rawData = fs.readFileSync("horarios.json", "utf-8");
       ReservaController.horariosData = JSON.parse(rawData);
+    }
+  }
+  async getInstalacionesByHour(req, res) {
+    try {
+      const { date: fecha, deporte, hour } = req.body;
+      const fechaReserva = new Date(fecha);
+      console.log(fechaReserva);
+      fechaReserva.setUTCHours(0, 0, 0, 0);
+      console.log(fechaReserva);
+      const fechaActual = new Date();
+      fechaActual.setUTCHours(0, 0, 0, 0);
+
+      if (fechaReserva < fechaActual) throw new ReservaOutOfDate();
+      const formattedDate = `${String(fechaReserva.getUTCDate()).padStart(2, "0")}-${String(fechaReserva.getUTCMonth() + 1).padStart(2, "0")}-${fechaReserva.getUTCFullYear()}`;
+      /* Vemos todas las instalaciones que contengan ese deporte_ */
+      const responseInstalaciones = await this.model_instalaciones.findAll({
+        where: {
+          status: true,
+          sports: { [Op.contains]: [deporte.name] },
+        },
+        distinct: true,
+        attributes: {
+          exclude: ["created_at", "updated_at", "status"],
+        },
+        include: [
+          {
+            model: models.canchas,
+            as: "canchas",
+            attributes: ["id"],
+            include: [
+              {
+                model: models.deportes,
+                as: "deportes",
+                attributes: ["id", "name"],
+                through: { attributes: [] },
+              },
+              {
+                model: models.tipos,
+                as: "tipo",
+                attributes: ["id", "name"],
+              },
+            ],
+          },
+        ],
+      });
+      /* Tenemos que filtramos las instalaciones que tengan canchas con el id de deporte especifico */
+      responseInstalaciones.filter((instalacion) => {
+        const remainingCanchas = instalacion.canchas.filter(async (cancha) => {
+          /* Primero filtramos por el horarios definido por el administrador por cancha*/
+          if (!ReservaController.horariosData[cancha.id][formattedDate][hour])
+            return false;
+          /* Si la cancha esta disponible */
+          const reservasResponse = await this.model({
+            where: {
+              fecha: formattedDate,
+              id_cancha: cancha.id,
+              hours: { [Op.contains]: [hour] },
+            },
+          });
+          if (!reservasResponse) return false;
+          return true;
+        });
+        return remainingCanchas.length > 0;
+      });
+    } catch (error) {
+      return res.status(error?.code || 500).json({ message: error.message });
     }
   }
   async getAvailableHours(req, res) {
@@ -68,33 +160,6 @@ class ReservaController {
           ],
         },
       });
-      /* Definimos las horas Disponibles  */
-      const horasDisponibles = [
-        "00",
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-      ];
       /* Para cada cancha crearemos un array de disponibilidad para luego hacer un reduce y ver si la horas estan dispibles */
       const setHorarioDeporte = new Set();
       const formattedDate = `${String(fechaReserva.getUTCDate()).padStart(2, "0")}-${String(fechaReserva.getUTCMonth() + 1).padStart(2, "0")}-${fechaReserva.getUTCFullYear()}`;
@@ -162,7 +227,7 @@ class ReservaController {
       const reducedHours = combinedHours.reduce(
         (acc, curr) => {
           const key = Object.keys(curr)[0];
-          horasDisponibles.forEach((hora) => {
+          this.horasDisponibles.forEach((hora) => {
             if (curr[key][hora]) {
               hourCanchas[hora] = key;
               acc[hora] = true;
@@ -170,7 +235,7 @@ class ReservaController {
           });
           return acc;
         },
-        Object.fromEntries(horasDisponibles.map((hora) => [hora, false])) // Asegurar que todas las claves sean strings
+        Object.fromEntries(this.horasDisponibles.map((hora) => [hora, false])) // Asegurar que todas las claves sean strings
       );
       /* Enviamos solo las horas que estan disponibles para ese deporte */
       const availabeHoursResult = Object.entries(reducedHours).flatMap(
@@ -244,11 +309,6 @@ class ReservaController {
     } catch (error) {
       return res.status(error?.code || 500).json({ message: error.message });
     }
-  }
-
-  async getInstalacionesByHour() {
-    const { instalacion_id, date: fecha, deporte_id, canchas, hour } = req.body;
-    
   }
 }
 export default ReservaController;
