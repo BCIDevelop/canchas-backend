@@ -7,6 +7,10 @@ class InstalacionModel extends Model {
       foreignKey: 'id_admin',
       as: 'admin',
     });
+    this.hasMany(models.canchas, {
+      foreignKey: 'id_instalacion',
+      as: 'canchas'
+    });
   }
 
   static initModel(sequelize) {
