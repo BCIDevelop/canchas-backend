@@ -44,7 +44,7 @@ class Server {
     this.middleware();
     this.routers();
     this.listen();
-    /* this.socketioInit() */
+    this.socketioInit();
   }
   socketioInit() {
     const socket = new SocketIO(this.server);

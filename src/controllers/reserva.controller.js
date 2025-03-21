@@ -24,7 +24,7 @@ class ReservaController {
     }
   }
   async getAvailableHours(req, res) {
-    const { instalacion_id, fecha, deporte_id, canchas } = req.body;
+    const { instalacion_id, date: fecha, deporte_id, canchas } = req.body;
 
     try {
       /* Validamos fecha */
@@ -95,15 +95,25 @@ class ReservaController {
         "23",
       ];
       /* Para cada cancha crearemos un array de disponibilidad para luego hacer un reduce y ver si la horas estan dispibles */
+      const setHorarioDeporte = new Set();
       const formattedDate = `${String(fechaReserva.getUTCDate()).padStart(2, "0")}-${String(fechaReserva.getUTCMonth() + 1).padStart(2, "0")}-${fechaReserva.getUTCFullYear()}`;
       const combinedHours = canchasPermitidas.map((cancha_id) => {
         const hours = Object.fromEntries(
-          Array.from({ length: 24 }, (_, i) => [
-            i.toString().padStart(2, "0"),
-            ReservaController.horariosData[cancha_id][formattedDate][
-              i.toString().padStart(2, "0")
-            ],
-          ])
+          Array.from({ length: 24 }, (_, i) => {
+            if (
+              ReservaController.horariosData[cancha_id][formattedDate][
+                i.toString().padStart(2, "0")
+              ]
+            ) {
+              setHorarioDeporte.add(i.toString().padStart(2, "0"));
+            }
+            return [
+              i.toString().padStart(2, "0"),
+              ReservaController.horariosData[cancha_id][formattedDate][
+                i.toString().padStart(2, "0")
+              ],
+            ];
+          })
         );
         return {
           [cancha_id]: hours,
@@ -166,7 +176,12 @@ class ReservaController {
         ([hour, available]) =>
           available ? { hour, id_cancha: hourCanchas[hour] } : []
       );
-      return res.status(200).json(availabeHoursResult);
+      return res.status(200).json({
+        data: {
+          schedule: [...setHorarioDeporte],
+          available: availabeHoursResult,
+        },
+      });
     } catch (error) {
       return res.status(error?.code || 500).json({ message: error.message });
     }

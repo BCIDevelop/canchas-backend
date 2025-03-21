@@ -8,7 +8,7 @@ class ReservaRouter {
   }
   init() {
     return this.router
-      .get(
+      .post(
         "/availableHours",
         Validation.getAvailableHours(),
         this.getAvailableHours
