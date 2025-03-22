@@ -59,8 +59,8 @@ class ReservaValidation {
           "date.base": "Debe ingresar una fecha válida.",
           "any.required": "La fecha es obligatoria.",
         }),
-        hours: Joi.array().items(Joi.number().positive()).required().messages({
-          "number.base": "Debe ingresar un número válido.",
+        hours: Joi.array().items(Joi.string()).required().messages({
+          "string.base": "Debe ser un string",
           "any.required": "La hora es obligatoria.",
         }),
         id_instalacion: Joi.number().positive().required().messages({
