@@ -22,11 +22,32 @@ class ReservaValidation {
         }),
         canchas: Joi.array()
           .items(Joi.number().positive())
+          .max(5)
           .required()
           .messages({
             "array.base": "Debe ingresar un array de números.",
+            "array.max": "No puede ingresar más de 5 canchas.",
             "any.required": "Las canchas son obligatorias.",
           }),
+      }),
+    });
+  }
+
+  getFacilityByHours() {
+    return this.celebrate({
+      [Segments.BODY]: Joi.object().keys({
+        date: Joi.date().required().messages({
+          "date.base": "Debe ingresar una fecha válida.",
+          "any.required": "La fecha es obligatoria.",
+        }),
+        deporte: Joi.object({
+          id: Joi.number().positive().required(),
+          name: Joi.string().required(),
+        }),
+        hour: Joi.string().length(2).required().messages({
+          "string.length": "La hora de tener un formato de 2 digitos.",
+          "any.required": "La hora es obligatorio.",
+        }),
       }),
     });
   }

@@ -8,10 +8,15 @@ class ReservaRouter {
   }
   init() {
     return this.router
-      .get(
+      .post(
         "/availableHours",
         Validation.getAvailableHours(),
         this.getAvailableHours
+      )
+      .post(
+        "/availableFacilities",
+        Validation.getFacilityByHours(),
+        this.getFacilityByHours
       )
       .post("/", Validation.create(), this.createReservation);
   }
@@ -22,6 +27,10 @@ class ReservaRouter {
   createReservation(req, res) {
     const controller = new ReservaController();
     controller.makeReservation(req, res);
+  }
+  getFacilityByHours(req, res) {
+    const controller = new ReservaController();
+    controller.getInstalacionesByHour(req, res);
   }
 }
 export default new ReservaRouter();

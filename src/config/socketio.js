@@ -21,6 +21,8 @@ class SocketIO {
         const instanciaId = socket.handshake.query.instanciaId;
         if (instanciaId && typeof instanciaId === "string") {
           socket.join(instanciaId);
+          socket.data.reservedSlots = [];
+          socket.data.remainLocked = false;
           socket.data.timerId = setTimeout(() => {
             socket.disconnect(true);
           }, 300000); // 5 minutos

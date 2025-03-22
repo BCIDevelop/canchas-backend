@@ -6,6 +6,10 @@ class InstalacionModel extends Model {
       foreignKey: "id_admin",
       as: "admin",
     });
+    this.hasMany(models.canchas, {
+      foreignKey: 'id_instalacion',
+      as: 'canchas'
+    });
   }
 
   static initModel(sequelize) {
@@ -22,6 +26,13 @@ class InstalacionModel extends Model {
         },
         rating: {
           type: DataTypes.FLOAT,
+          allowNull: true,
+        },
+        images: {
+          type: DataTypes.ARRAY(DataTypes.STRING),
+        },
+        description: {
+          type: DataTypes.TEXT,
           allowNull: true,
         },
         status: {

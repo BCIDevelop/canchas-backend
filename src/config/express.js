@@ -6,6 +6,8 @@ import morgan from "morgan";
 import { createServer } from "http";
 import models from "../models";
 import SocketIO from "./socketio";
+import path from "path";
+
 const { sequelize } = models;
 /* import http from "http"; */
 
@@ -26,6 +28,10 @@ class Server {
   routers() {
     routes(this.app);
     this.app.use(errors());
+    this.app.use(
+      "/uploads/fotos",
+      express.static(path.resolve(process.env.FOTOS_INSTALACIONES))
+    );
   }
 
   listen() {
@@ -44,7 +50,7 @@ class Server {
     this.middleware();
     this.routers();
     this.listen();
-    /* this.socketioInit() */
+    this.socketioInit();
   }
   socketioInit() {
     const socket = new SocketIO(this.server);
