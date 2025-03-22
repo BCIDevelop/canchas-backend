@@ -54,7 +54,6 @@ class ReservaController {
     try {
       const { date: fecha, deporte, hour } = req.body;
       const fechaReserva = new Date(fecha);
-      console.log(fechaReserva);
       fechaReserva.setUTCHours(0, 0, 0, 0);
       console.log(fechaReserva);
       const fechaActual = new Date();
@@ -112,10 +111,12 @@ class ReservaController {
         });
         return remainingCanchas.length > 0;
       });
+      return res.status(200).json({ data: responseInstalaciones.rows });
     } catch (error) {
       return res.status(error?.code || 500).json({ message: error.message });
     }
   }
+
   async getAvailableHours(req, res) {
     const { instalacion_id, date: fecha, deporte_id, canchas } = req.body;
 
