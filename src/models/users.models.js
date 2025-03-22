@@ -3,7 +3,6 @@ import { hashSync, genSaltSync, compareSync } from "bcryptjs";
 import auth from "../config/auth";
 
 class UserModel extends Model {
-  
   static associate(models) {}
   static initModel(sequelize) {
     return super.init(
@@ -30,7 +29,7 @@ class UserModel extends Model {
           allowNull: true,
         },
         address: {
-          type: DataTypes.STRING
+          type: DataTypes.STRING,
         },
         celphone: {
           type: DataTypes.STRING,
@@ -44,7 +43,7 @@ class UserModel extends Model {
         status: {
           type: DataTypes.BOOLEAN,
           defaultValue: false,
-        }
+        },
       },
       {
         sequelize,

@@ -3,11 +3,10 @@ import Validation from "../validations/auth.validations.js";
 import AuthController from "../controllers/auth.controller";
 
 class AuthRouter {
-
   constructor() {
     this.router = Router();
   }
-  
+
   init() {
     return this.router
       .post("/signIn", Validation.signIn(), this.signIn)

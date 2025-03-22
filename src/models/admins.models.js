@@ -1,33 +1,32 @@
-import { Model, DataTypes } from 'sequelize';
-import { hashSync, genSaltSync, compareSync } from 'bcryptjs';
-import auth from '../config/auth';
+import { Model, DataTypes } from "sequelize";
+import { hashSync, genSaltSync, compareSync } from "bcryptjs";
+import auth from "../config/auth";
 
 class AdminModel extends Model {
-
   static associate(models) {}
   static initModel(sequelize) {
     return super.init(
       {
         name: {
-          type: DataTypes.STRING
+          type: DataTypes.STRING,
         },
         last_name: {
-          type: DataTypes.STRING
+          type: DataTypes.STRING,
         },
         dni: {
           type: DataTypes.STRING,
-          unique: true
+          unique: true,
         },
         email: {
           type: DataTypes.STRING,
           unique: true,
         },
         password: {
-          type: DataTypes.STRING
+          type: DataTypes.STRING,
         },
         address: {
           type: DataTypes.STRING,
-          allowNull: true
+          allowNull: true,
         },
         avatar: {
           type: DataTypes.STRING,
@@ -35,26 +34,26 @@ class AdminModel extends Model {
         },
         token: {
           type: DataTypes.STRING,
-          allowNull: true
+          allowNull: true,
         },
         celphone: {
           type: DataTypes.STRING,
           unique: true,
-          allowNull: true
+          allowNull: true,
         },
         comment: {
           type: DataTypes.STRING,
-          allowNull: true
+          allowNull: true,
         },
         status: {
           type: DataTypes.BOOLEAN,
-          defaultValue: false
-        }
+          defaultValue: false,
+        },
       },
       {
         sequelize,
-        tableName: 'admins',
-        modelName: 'admins',
+        tableName: "admins",
+        modelName: "admins",
       }
     );
   }
