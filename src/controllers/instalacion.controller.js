@@ -9,7 +9,6 @@ import {
 } from "../exceptions/instalaciones.exceptions";
 
 import { AdminNotFound, AdminInactive } from "../exceptions/admins.exceptions";
-import { required } from "joi";
 
 class InstalacionController {
   constructor() {
@@ -104,7 +103,6 @@ class InstalacionController {
             canchas.push({ id: cancha.id, deportes: cancha.deportes });
           }
 
-          console.log(instalacion.canchas[index].tipo);
         });
         return {
           id: instalacion.id,
