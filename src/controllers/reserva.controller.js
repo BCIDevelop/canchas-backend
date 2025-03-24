@@ -1,10 +1,10 @@
 import models from "../models";
-import { SportNotAllowed } from "../exceptions/deporte.exceptions";
+
 import {
   ReservaOutOfDate,
   ReservaTaken,
 } from "../exceptions/reservas.exceptions";
-import { Op, where } from "sequelize";
+import { Op } from "sequelize";
 import { CanchaDeporteNotFound } from "../exceptions/canchas.exceptions";
 import { tranformDateUTCTarget } from "../helpers/formatDate";
 import fs from "fs";

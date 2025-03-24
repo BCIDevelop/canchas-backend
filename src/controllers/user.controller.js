@@ -15,12 +15,19 @@ class UserController {
   }
   async getMyProfile(req, res) {
     const id = req.current_user;
-    console.log(id);
     if (!id) return res.status(401).json({ message: "Unauthorized" });
     try {
       const user = await this.model.findOne({
         where: { id },
-        attributes: ["name", "email", "last_name", "celphone", "dni", "status"],
+        attributes: [
+          "name",
+          "email",
+          "last_name",
+          "celphone",
+          "dni",
+          "status",
+          "address",
+        ],
       });
       if (!user) throw new UserNotFound();
       if (!user.status) throw new UserInactive();
