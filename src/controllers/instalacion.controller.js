@@ -102,7 +102,6 @@ class InstalacionController {
 
             canchas.push({ id: cancha.id, deportes: cancha.deportes });
           }
-
         });
         return {
           id: instalacion.id,

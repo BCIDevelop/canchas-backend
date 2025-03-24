@@ -58,7 +58,7 @@ class ReservaController {
       const fechaReserva = new Date(fecha);
       fechaReserva.setUTCHours(0, 0, 0, 0);
       console.log(fechaReserva);
-      const fechaActual = new Date();
+      const fechaActual = this.today;
       fechaActual.setUTCHours(0, 0, 0, 0);
 
       if (fechaReserva < fechaActual) throw new ReservaOutOfDate();
