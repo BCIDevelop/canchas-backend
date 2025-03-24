@@ -9,7 +9,6 @@ import {
 } from "../exceptions/instalaciones.exceptions";
 
 import { AdminNotFound, AdminInactive } from "../exceptions/admins.exceptions";
-import { required } from "joi";
 
 class InstalacionController {
   constructor() {
@@ -19,11 +18,12 @@ class InstalacionController {
 
   // Controlador para obtener una instalación por ID :
   async getInstalacionById(req, res) {
+
     const { id } = req.params;
 
     try {
       const response = await this.model.findOne({
-        where: { status: true },
+        where: { status: true, id },
         include: [{
           model: models.canchas,
           as: 'canchas',
