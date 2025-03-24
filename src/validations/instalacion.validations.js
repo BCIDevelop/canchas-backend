@@ -34,7 +34,7 @@ class InstalacionValidation {
           "number.integer": "El límite debe ser un número entero.",
           "number.positive": "El límite debe ser un número positivo.",
         }),
-
+        deporte: Joi.string().optional(),
         search: Joi.string().optional(),
       }),
     });

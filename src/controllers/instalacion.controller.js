@@ -1,7 +1,7 @@
 import models from "../models";
 import path from "path";
 import ImageUploader from "../middlewares/images.middlewares";
-
+import { Op } from "sequelize";
 import {
   InstalacionNotFound,
   InstalacionInactive,
@@ -55,13 +55,16 @@ class InstalacionController {
 
   // Controlador para obtener las instalaciones con paginación :
   async getInstalaciones(req, res) {
-    const { page = 1, limit = 20, search } = req.query;
+    const { page = 1, limit = 20, search, deporte } = req.query;
     const offset = page == 0 ? null : (page - 1) * limit;
     const safeLimit = page == 0 ? null : parseInt(limit, 10);
 
     try {
       const whereCondition = {
         status: true,
+        ...(deporte && {
+          sports: { [Op.contains]: [deporte] },
+        }),
         ...(search && {
           [Op.or]: [{ name: { [Op.iLike]: `%${search}%` } }],
         }),
@@ -119,8 +122,6 @@ class InstalacionController {
 
             canchas.push({ id: cancha.id, deportes: cancha.deportes });
           }
-
-          console.log(instalacion.canchas[index].tipo);
         });
         return {
           id: instalacion.id,
@@ -148,6 +149,7 @@ class InstalacionController {
         },
       });
     } catch (error) {
+      console.log(error);
       return res.status(error?.code || 500).json({
         message: error.message,
         data: error?.data || null,

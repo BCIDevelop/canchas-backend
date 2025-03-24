@@ -58,7 +58,7 @@ class ReservaController {
       const { date: fecha, deporte, hour } = req.body;
       const fechaReserva = new Date(fecha);
       fechaReserva.setUTCHours(0, 0, 0, 0);
-      console.log(fechaReserva);
+
       const fechaActual = this.today;
       fechaActual.setUTCHours(0, 0, 0, 0);
 
@@ -159,13 +159,11 @@ class ReservaController {
 
   async getAvailableHours(req, res) {
     const { instalacion_id, date: fecha, deporte_id, canchas } = req.body;
-
     try {
       /* Validamos fecha */
       const fechaReserva = new Date(fecha);
-      fechaReserva.setHours(0, 0, 0, 0);
-      const fechaActual = new Date();
-      fechaActual.setHours(0, 0, 0, 0);
+      const fechaActual = this.today;
+      fechaActual.setUTCHours(0, 0, 0, 0);
       if (fechaReserva < fechaActual) throw new ReservaOutOfDate();
       const orConditions = canchas.map((cancha_id) => ({
         [Op.and]: [{ id_deporte: deporte_id }, { id_cancha: cancha_id }],
@@ -177,9 +175,10 @@ class ReservaController {
       });
       if (records.length === 0) throw new CanchaDeporteNotFound();
       /* Por cada cancha para ese deporte verificamos la tabla registro */
+      const formattedDate = `${String(fechaReserva.getUTCFullYear()).padStart(2, "0")}-${String(fechaReserva.getUTCMonth() + 1).padStart(2, "0")}-${fechaReserva.getUTCDate()}`;
       const canchasPermitidas = records.map((record) => record.id_cancha);
       const conditions = canchasPermitidas.map((cancha_id) => ({
-        fecha: fechaReserva,
+        fecha: formattedDate,
         id_cancha: cancha_id,
         id_instalacion: instalacion_id,
       }));
@@ -201,9 +200,10 @@ class ReservaController {
           ],
         },
       });
+
       /* Para cada cancha crearemos un array de disponibilidad para luego hacer un reduce y ver si la horas estan dispibles */
       const setHorarioDeporte = new Set();
-      const formattedDate = `${String(fechaReserva.getUTCFullYear()).padStart(2, "0")}-${String(fechaReserva.getUTCMonth() + 1).padStart(2, "0")}-${fechaReserva.getUTCDate()}`;
+
       const combinedHours = canchasPermitidas.map((cancha_id) => {
         const hours = Object.fromEntries(
           Array.from({ length: 24 }, (_, i) => {
@@ -296,28 +296,27 @@ class ReservaController {
   async makeReservation(req, res) {
     const { date, id_user, id_cancha, id_instalacion, hours } = req.body;
     try {
-      console.log(hours);
       const fechaReserva = new Date(date);
       const formattedDate = `${String(fechaReserva.getUTCFullYear()).padStart(2, "0")}-${String(fechaReserva.getUTCMonth() + 1).padStart(2, "0")}-${fechaReserva.getUTCDate()}`;
+
       /* Primero verificamos que el horario este disponible para esa fecha */
-      console.log(ReservaController.horariosData[id_cancha][formattedDate]);
+
       const hoursSchedule =
         ReservaController.horariosData[id_cancha][formattedDate];
       hours.forEach((hour) => {
-        console.log(hour);
         if (!hoursSchedule[hour]) {
-          console.log(hoursSchedule[hour]);
           throw new ReservaTaken();
         }
       });
       /* Luego verificamos que no este registrada */
       const recordReserva = await this.model.findAll({
         where: {
-          fecha: fechaReserva.toISOString().split("T")[0],
+          fecha: formattedDate,
           id_cancha,
           id_instalacion,
         },
       });
+
       const nowUTC5 = new Date(
         new Date().getTime() + this.utcOffset * 60 * 60 * 1000
       );
@@ -329,7 +328,6 @@ class ReservaController {
               record.created_at,
               this.utcOffset
             );
-            console.log(fechaCreacion);
             return record.pagado || fechaCreacion >= nowUTC5;
           })
           .forEach((record) => {
