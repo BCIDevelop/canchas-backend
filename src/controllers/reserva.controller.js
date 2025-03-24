@@ -135,7 +135,9 @@ class ReservaController {
           },
         });
         if (!(reservasResponse.length > 0)) {
-          return res.status(200).json({ data: filteredInstalaciones });
+          return res
+            .status(200)
+            .json({ data: { data: filteredInstalaciones } });
         }
         const finalFiltered = filteredInstalaciones.filter((instalaciones) => {
           const remainingCanchas = instalaciones.canchas.filter((cancha) => {
@@ -146,8 +148,9 @@ class ReservaController {
           });
           return remainingCanchas.length > 0;
         });
-        return res.status(200).json({ data: finalFiltered });
-      } else return res.status(200).json({ data: filteredInstalaciones });
+        return res.status(200).json({ data: { data: finalFiltered } });
+      } else
+        return res.status(200).json({ data: { data: filteredInstalaciones } });
     } catch (error) {
       return res.status(error?.code || 500).json({ message: error.message });
     }
