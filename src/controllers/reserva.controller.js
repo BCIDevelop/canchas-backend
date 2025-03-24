@@ -207,6 +207,9 @@ class ReservaController {
       const combinedHours = canchasPermitidas.map((cancha_id) => {
         const hours = Object.fromEntries(
           Array.from({ length: 24 }, (_, i) => {
+            if (!ReservaController.horariosData[cancha_id][formattedDate]){
+              throw new ScheduleOutOfRange();
+            }
             if (
               ReservaController.horariosData[cancha_id][formattedDate][
                 i.toString().padStart(2, "0")

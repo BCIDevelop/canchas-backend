@@ -11,23 +11,29 @@ export class ReservaTaken {
   }
 }
 
+export class ScheduleOutOfRange {
+  constructor() {
+    this.message = "La fecha no esta disponible";
+    this.code = 400;
+  }
+}
+
 export class ReservaNotFound {
   constructor() {
-    this.message = "Reserva no encontrada",
-    this.code = 404
+    (this.message = "Reserva no encontrada"), (this.code = 404);
   }
 }
 
 export class ReservaPageNotFound {
   constructor(currentPage, pageCount, totalCount, totalPages) {
-    this.message = "Página fuera de rango",
-    this.code = 200,
-    this.data = {
-      data: [],
-      currentPage,
-      pageCount,
-      totalCount,
-      totalPages
-    }
+    (this.message = "Página fuera de rango"),
+      (this.code = 200),
+      (this.data = {
+        data: [],
+        currentPage,
+        pageCount,
+        totalCount,
+        totalPages,
+      });
   }
 }
