@@ -21,7 +21,9 @@ export default async function seedInstalaciones() {
 
         rating: 4.5,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
         sports: ["Futbol", "Voley"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos", "Vestuarios"]
       },
       {
         id: 2,
@@ -38,7 +40,9 @@ export default async function seedInstalaciones() {
 
         rating: 4.5,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
         sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos"]
       },
       {
         id: 3,
@@ -54,6 +58,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 3.3,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos", "Vestuarios"]
       },
       {
         id: 4,
@@ -69,7 +76,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.5,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
         sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos"]
       },
       {
         id: 5,
@@ -85,6 +94,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 3.5,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos"]
       },
       {
         id: 6,
@@ -100,7 +112,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.5,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
         sports: ["Futbol"],
+        servicios: ["Servicios Higiénicos"]
       },
       {
         id: 7,
@@ -116,6 +130,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 3.0,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos"]
       },
       {
         id: 8,
@@ -131,7 +148,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.5,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
         sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos"]
       },
       {
         id: 9,
@@ -147,6 +166,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 3.2,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos", "Vestuarios"]
       },
       {
         id: 10,
@@ -162,7 +184,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.5,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
         sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos", "Vestuarios"]
       },
       {
         id: 11,
@@ -178,6 +202,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.8,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos"]
       },
       {
         id: 12,
@@ -193,7 +220,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.5,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
         sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco"]
       },
       {
         id: 13,
@@ -209,7 +238,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.5,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
         sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos"]
       },
       {
         id: 14,
@@ -225,6 +256,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.3,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos"]
       },
       {
         id: 15,
@@ -240,6 +274,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.2,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Chalecos"]
       },
       {
         id: 16,
@@ -255,6 +292,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.0,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos"]
       },
       {
         id: 17,
@@ -270,6 +310,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 3.5,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos"]
       },
       {
         id: 18,
@@ -285,7 +328,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.5,
         id_admin: 1,
-        sports: ["Futbol", "Voley", "Basquet"],
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Quiosco", "Chalecos"]
       },
       {
         id: 19,
@@ -301,6 +346,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 3.8,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos", "Chalecos"]
       },
       {
         id: 20,
@@ -316,6 +364,9 @@ export default async function seedInstalaciones() {
         ],
         rating: 4.0,
         id_admin: 1,
+        address: "Av. Santa Rosa 5412",
+        sports: ["Futbol", "Voley", "Basquet"],
+        servicios: ["Servicios Higiénicos"]
       },
     ],
     { ignoreDuplicates: true }

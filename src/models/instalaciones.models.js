@@ -39,6 +39,17 @@ class InstalacionModel extends Model {
           type: DataTypes.BOOLEAN,
           defaultValue: true,
         },
+        address: {
+          type: DataTypes.STRING
+        },
+        sports: {
+          type: DataTypes.ARRAY(DataTypes.STRING),
+          allowNull: true
+        },
+        servicios: {
+          type: DataTypes.ARRAY(DataTypes.STRING),
+          allowNull: true
+        },
         id_admin: {
           type: DataTypes.INTEGER,
           references: {
@@ -47,17 +58,7 @@ class InstalacionModel extends Model {
           },
           onUpdate: "CASCADE",
           onDelete: "SET NULL",
-        },
-        images: {
-          type: DataTypes.ARRAY(DataTypes.STRING),
-        },
-        description: {
-          type: DataTypes.TEXT,
-          allowNull: true,
-        },
-        sports: {
-          type: DataTypes.ARRAY(DataTypes.STRING),
-        },
+        }
       },
       {
         sequelize,
