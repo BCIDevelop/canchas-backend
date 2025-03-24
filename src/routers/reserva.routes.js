@@ -2,6 +2,8 @@ import { Router } from "express";
 import ReservaController from "../controllers/reserva.controller";
 /* import generalValidations from "../validations/general.validations"; */
 import Validation from "../validations/reserva.validations";
+import { isAuthenticated } from "../middlewares/auth.middlewares";
+
 class ReservaRouter {
   constructor() {
     this.router = Router();
@@ -18,7 +20,8 @@ class ReservaRouter {
         Validation.getFacilityByHours(),
         this.getFacilityByHours
       )
-      .post("/", Validation.create(), this.createReservation);
+      .post("/", Validation.create(), this.createReservation)
+      .get("/", isAuthenticated, Validation.getAllReservas(), this.getAllReservas);
   }
   getAvailableHours(req, res) {
     const controller = new ReservaController();
@@ -31,6 +34,10 @@ class ReservaRouter {
   getFacilityByHours(req, res) {
     const controller = new ReservaController();
     controller.getInstalacionesByHour(req, res);
+  }
+  getAllReservas(req, res) {
+    const controller = new ReservaController();
+    controller.getAllReservas(req, res);
   }
 }
 export default new ReservaRouter();

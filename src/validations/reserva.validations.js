@@ -78,6 +78,35 @@ class ReservaValidation {
       }),
     });
   }
+
+  getAllReservas() {
+    return this.celebrate({
+      [Segments.QUERY]: Joi.object().keys({
+        page: Joi.number().min(0).optional().messages({
+          "number.base": "La página debe ser un número.",
+          "number.integer": "La página debe ser un número entero.",
+          "number.min": "La página no puede ser menor que 0."
+        }),
+        limit: Joi.number().positive().optional().messages({
+          "number.base": "El límite debe ser un número.",
+          "number.integer": "El límite debe ser un número entero.",
+          "number.positive": "El límite debe ser un número positivo."
+        }),
+      }),
+    });
+  }
+
+  getReservaById() {
+    return this.celebrate({
+      [Segments.PARAMS]: Joi.object().keys({
+        id: Joi.number().min(1).optional().messages({
+          "number.base": "El ID debe ser un número.",
+          "number.integer": "El ID debe ser un número entero.",
+          "number.min": "El ID no puede ser menor que 1."
+        })
+      }),
+    });
+  }
 }
 
 export default new ReservaValidation();
