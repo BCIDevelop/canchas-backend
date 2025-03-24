@@ -3,6 +3,7 @@ import SportController from "../controllers/deporte.controller";
 import Validations from "../validations/deporte.validations";
 
 class SportRouter {
+
   constructor() {
     this.router = Router();
   }
@@ -11,7 +12,7 @@ class SportRouter {
     return this.router
       .get("/", Validations.getSports(), this.getSports)
       .get("/:id", Validations.getSportById(), this.getSportById)
-      .post("/", Validations.createSport(), this.createSport);
+      .post("/", Validations.createSport(), this.createSport)
   }
 
   getSportById(req, res) {

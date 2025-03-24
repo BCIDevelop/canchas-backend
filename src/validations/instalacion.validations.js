@@ -36,7 +36,6 @@ class InstalacionValidation {
         }),
 
         search: Joi.string().optional(),
-        deporte: Joi.string().optional(),
       }),
     });
   }

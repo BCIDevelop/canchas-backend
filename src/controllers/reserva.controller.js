@@ -2,6 +2,7 @@ import models from "../models";
 
 import {
   ReservaOutOfDate,
+  ReservaPageNotFound,
   ReservaTaken,
 } from "../exceptions/reservas.exceptions";
 import { Op } from "sequelize";
@@ -351,6 +352,57 @@ class ReservaController {
       return res.status(201).json(resultReserva);
     } catch (error) {
       return res.status(error?.code || 500).json({ message: error.message });
+    }
+  }
+
+  /* Historial de Reservas */
+  async getAllReservas(req, res) {
+    const id = req.current_user;
+    if (!id) return res.status(401).json({ message: "Unauthorized" });
+
+    const { page = 1, limit = 20 } = req.query;
+    const offset = page == 0 ? null : (page - 1) * limit;
+    const safeLimit = page == 0 ? null : limit;
+
+    try {
+      const response = await this.model.findAndCountAll({
+        where: { id_user: id },
+        limit: safeLimit,
+        attributes: ["id", "fecha", "hours"],
+        include: [
+          {
+            model: models.instalaciones,
+            as: "instalacion",
+            attributes: ["id", "name", "images", "rating"],
+          },
+        ],
+        offset,
+        order: [["fecha", "DESC"]],
+      });
+
+      const totalPages = Math.ceil(response.count / limit);
+      if (page > totalPages)
+        throw new ReservaPageNotFound(
+          page,
+          response.rows.length,
+          response.count,
+          totalPages
+        );
+
+      return res.status(200).json({
+        message: "Reservas obtenidas exitosamente",
+        data: {
+          data: response.rows,
+          currentPage: page,
+          pageCount: response.rows.length,
+          totalCount: response.count,
+          totalPages: totalPages,
+        },
+      });
+    } catch (error) {
+      return res.status(error?.code || 500).json({
+        message: error.message,
+      });
     }
   }
 }
