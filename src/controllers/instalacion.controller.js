@@ -22,7 +22,7 @@ class InstalacionController {
 
     try {
       const response = await this.model.findOne({
-        where: { status: true },
+        where: { status: true, id },
         include: [
           {
             model: models.canchas,
@@ -111,7 +111,7 @@ class InstalacionController {
       const result = response.rows.map((instalacion) => {
         const tiposSet = new Map();
         const canchas = [];
-        instalacion.canchas.forEach((cancha, index) => {
+        instalacion.canchas.forEach((cancha) => {
           if (cancha.tipo && !tiposSet.has(cancha.tipo.id)) {
             tiposSet.set(cancha.tipo.id, {
               id: cancha.tipo.id,
