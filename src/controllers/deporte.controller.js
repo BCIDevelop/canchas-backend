@@ -3,18 +3,16 @@ import models from "../models";
 import {
   SportNotFound,
   SportNotAllowed,
-  SportsNotFound
+  SportsNotFound,
 } from "../exceptions/deporte.exceptions";
 
 class SportController {
-
   constructor() {
     this.model = models.deportes;
   }
 
   // Controlador para obtener un deporte por ID (GENERAL) :
   async getSportById(req, res) {
-
     const { id } = req.params;
 
     try {
@@ -26,17 +24,15 @@ class SportController {
         message: "Deporte obtenido exitosamente",
         data: response,
       });
-
     } catch (error) {
       return res.status(error?.code || 500).json({
-        message: error.message
+        message: error.message,
       });
     }
   }
 
   // Controlador para obtener todos los deportes (GENERAL) :
   async getSports(req, res) {
-
     const { search } = req.query;
 
     try {
@@ -49,7 +45,7 @@ class SportController {
 
       const response = await this.model.findAndCountAll({
         where: whereCondition,
-        order: [["name", "ASC"]]
+        order: [["name", "ASC"]],
       });
       if (!response) throw new SportsNotFound();
 
@@ -60,17 +56,15 @@ class SportController {
           total: response.count,
         },
       });
-
     } catch (error) {
       return res.status(error?.code || 500).json({
-        message: error.message
+        message: error.message,
       });
     }
   }
 
   // Controlador para crear un deporte (SUPERVISORES) :
   async createSport(req, res) {
-
     const { name } = req.body;
 
     try {
@@ -79,10 +73,9 @@ class SportController {
         message: "Deporte creado exitosamente",
         data: response,
       });
-
     } catch (error) {
       return res.status(error?.code || 500).json({
-        message: error.message
+        message: error.message,
       });
     }
   }

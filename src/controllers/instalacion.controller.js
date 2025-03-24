@@ -1,7 +1,7 @@
 import models from "../models";
 import path from "path";
 import ImageUploader from "../middlewares/images.middlewares";
-
+import { Op } from "sequelize";
 import {
   InstalacionNotFound,
   InstalacionInactive,
@@ -23,18 +23,20 @@ class InstalacionController {
     try {
       const response = await this.model.findOne({
         where: { status: true },
-        include: [{
-          model: models.canchas,
-          as: 'canchas',
-          attributes: ['id'],
-          include: [
-            {
-            model: models.deportes,
-            as: 'deportes',
-            attributes: ['id', 'name']
-            }
-          ]
-        }]
+        include: [
+          {
+            model: models.canchas,
+            as: "canchas",
+            attributes: ["id"],
+            include: [
+              {
+                model: models.deportes,
+                as: "deportes",
+                attributes: ["id", "name"],
+              },
+            ],
+          },
+        ],
       });
 
       if (!response) throw new InstalacionNotFound();
@@ -53,13 +55,14 @@ class InstalacionController {
 
   // Controlador para obtener las instalaciones con paginación :
   async getInstalaciones(req, res) {
-    const { page = 1, limit = 20, search } = req.query;
+    const { page = 1, limit = 20, search, deporte } = req.query;
     const offset = page == 0 ? null : (page - 1) * limit;
     const safeLimit = page == 0 ? null : parseInt(limit, 10);
 
     try {
       const whereCondition = {
         status: true,
+        ...(deporte && { sports: { [Op.contains]: [deporte] } }),
         ...(search && {
           [Op.or]: [{ name: { [Op.iLike]: `%${search}%` } }],
         }),
