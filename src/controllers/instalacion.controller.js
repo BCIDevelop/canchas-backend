@@ -43,7 +43,7 @@ class InstalacionController {
       if (!response.status) throw new InstalacionInactive();
       return res.status(200).json({
         message: "Instalación obtenida exitosamente",
-        data: response,
+        data: { data: response },
       });
     } catch (error) {
       return res.status(error?.code || 500).json({

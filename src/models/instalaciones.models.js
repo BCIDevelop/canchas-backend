@@ -7,8 +7,8 @@ class InstalacionModel extends Model {
       as: "admin",
     });
     this.hasMany(models.canchas, {
-      foreignKey: 'id_instalacion',
-      as: 'canchas'
+      foreignKey: "id_instalacion",
+      as: "canchas",
     });
   }
 
@@ -51,9 +51,8 @@ class InstalacionModel extends Model {
         images: {
           type: DataTypes.ARRAY(DataTypes.STRING),
         },
-        description: {
-          type: DataTypes.TEXT,
-          allowNull: true,
+        address: {
+          type: DataTypes.STRING,
         },
         sports: {
           type: DataTypes.ARRAY(DataTypes.STRING),

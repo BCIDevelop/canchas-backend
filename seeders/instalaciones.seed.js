@@ -8,6 +8,7 @@ export default async function seedInstalaciones() {
     [
       {
         id: 1,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "JUAN MOSCOSO",
         latitude: -11.93820238292849,
         longitude: -76.9917686589275,
@@ -25,6 +26,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 2,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "PALMERAS",
         latitude: -11.99906693476323,
         longitude: -77.00314048518821,
@@ -42,6 +44,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 3,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "CHONTA",
         latitude: -11.96725483583813,
         longitude: -77.00195750912948,
@@ -57,6 +60,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 4,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "COCHARCAS",
         latitude: -11.967546876052666,
         longitude: -76.98783086918472,
@@ -73,6 +77,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 5,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "LOS JARDINES",
         latitude: -12.011307428419716,
         longitude: -77.00424698267695,
@@ -88,6 +93,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 6,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "SAN CARLOS",
         latitude: -11.988312589605714,
         longitude: -77.00590578029356,
@@ -104,6 +110,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 7,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "JOSE CARLOS MARIÁTEGUI",
         latitude: -11.93844432505125,
         longitude: -76.98844979748874,
@@ -119,6 +126,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 8,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "NUEVA GENERACIÓN",
         latitude: -11.959124884534562,
         longitude: -76.99628710608631,
@@ -135,6 +143,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 9,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "ISRAEL",
         latitude: -11.972921932105368,
         longitude: -76.98750121593955,
@@ -150,6 +159,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 10,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "JAVIER HERAUD",
         latitude: -12.022901127291291,
         longitude: -76.99520875340502,
@@ -166,6 +176,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 11,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "HUANCARAY",
         latitude: -11.96671140693121,
         longitude: -76.98977978829532,
@@ -181,6 +192,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 12,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "MOTUPE",
         latitude: -11.934787278638401,
         longitude: -76.9762629201744,
@@ -197,6 +209,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 13,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "PRIMERO DE MAYO (SEPILOMA)",
         latitude: -11.942073155417003,
         longitude: -76.97054898578405,
@@ -213,6 +226,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 14,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "MONTEVERDE",
         latitude: -11.935581398683256,
         longitude: -76.96917615701206,
@@ -228,6 +242,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 15,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "TOTORITAS",
         latitude: -11.995770408336769,
         longitude: -76.99720831800995,
@@ -243,6 +258,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 16,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "SAN BENITO",
         latitude: -12.009616809562981,
         longitude: -77.01281205274525,
@@ -258,6 +274,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 17,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "MARACANÁ",
         latitude: -11.950300064517002,
         longitude: -76.99272691217266,
@@ -273,6 +290,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 18,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "CHALAN",
         latitude: -12.012411498313195,
         longitude: -76.96422736137481,
@@ -289,6 +307,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 19,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "LA 49",
         latitude: -12.026562334120877,
         longitude: -77.0202870648721,
@@ -304,6 +323,7 @@ export default async function seedInstalaciones() {
       },
       {
         id: 20,
+        address: "Av. N. Martínez, altura del paradero la curva Mariátegui",
         name: "SAN MARCOS",
         latitude: -11.966365639586655,
         longitude: -77.0138657460311,
