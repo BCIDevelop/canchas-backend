@@ -68,12 +68,18 @@ class AuthController {
       if (!record.status) throw new UserInactive();
       const validatePassword = await record.validatePassword(password);
       if (!validatePassword) throw new UserIncorretPassword();
-      const { last_name, name } = record;
+      const { last_name, name, celphone, address,dni } = record;
       return res.status(200).json({
         ...createTokens({ id: record.id }),
-        last_name,
-        name,
-        id: record.id,
+        user: {
+          last_name,
+          name,
+          id: record.id,
+          celphone,
+          address,
+          email,
+          dni,
+        },
       });
     } catch (error) {
       return res.status(error?.code || 500).json({ message: error.message });
