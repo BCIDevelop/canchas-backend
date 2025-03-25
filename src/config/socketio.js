@@ -19,14 +19,26 @@ class SocketIO {
         console.log(`Conexión con el socket --> ${socket.id}`);
 
         const instanciaId = socket.handshake.query.instanciaId;
-        if (instanciaId && typeof instanciaId === "string") {
-          socket.join(instanciaId);
+        const deporte = socket.handshake.query.deporte;
+        console.log("Instancia ID" + instanciaId);
+        if (
+          instanciaId &&
+          typeof instanciaId === "string" &&
+          deporte &&
+          typeof deporte === "string"
+        ) {
+          console.log("Joinee");
+          socket.join(`${instanciaId}${deporte}`);
           socket.data.reservedSlots = [];
           socket.data.remainLocked = false;
           socket.data.timerId = setTimeout(() => {
+            console.log("Desconectate");
             socket.disconnect(true);
           }, 300000); // 5 minutos
-        } else socket.disconnect(true);
+        } else {
+          console.log("Desconte en el join");
+          socket.disconnect(true);
+        }
 
         await eventModules(socket, this.server);
       } catch (error) {

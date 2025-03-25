@@ -15,7 +15,6 @@ export default async function seedUsers() {
 
   await users.bulkCreate([
     {
-      id: 1,
       name: "admin",
       email: "admin@example.com",
       celphone: "923456789",

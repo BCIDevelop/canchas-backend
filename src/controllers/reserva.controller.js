@@ -4,6 +4,7 @@ import {
   ReservaOutOfDate,
   ReservaPageNotFound,
   ReservaTaken,
+  ScheduleOutOfRange,
 } from "../exceptions/reservas.exceptions";
 import { Op } from "sequelize";
 import { CanchaDeporteNotFound } from "../exceptions/canchas.exceptions";
@@ -176,6 +177,7 @@ class ReservaController {
       if (records.length === 0) throw new CanchaDeporteNotFound();
       /* Por cada cancha para ese deporte verificamos la tabla registro */
       const formattedDate = `${String(fechaReserva.getUTCFullYear()).padStart(2, "0")}-${String(fechaReserva.getUTCMonth() + 1).padStart(2, "0")}-${fechaReserva.getUTCDate()}`;
+      console.log(formattedDate);
       const canchasPermitidas = records.map((record) => record.id_cancha);
       const conditions = canchasPermitidas.map((cancha_id) => ({
         fecha: formattedDate,
@@ -207,7 +209,7 @@ class ReservaController {
       const combinedHours = canchasPermitidas.map((cancha_id) => {
         const hours = Object.fromEntries(
           Array.from({ length: 24 }, (_, i) => {
-            if (!ReservaController.horariosData[cancha_id][formattedDate]){
+            if (!ReservaController.horariosData[cancha_id][formattedDate]) {
               throw new ScheduleOutOfRange();
             }
             if (
