@@ -20,8 +20,13 @@ class ReservaRouter {
         Validation.getFacilityByHours(),
         this.getFacilityByHours
       )
-      .post("/", Validation.create(), this.createReservation)
-      .get("/", isAuthenticated, Validation.getAllReservas(), this.getAllReservas);
+      .post("/", isAuthenticated, Validation.create(), this.createReservation)
+      .get(
+        "/",
+        isAuthenticated,
+        Validation.getAllReservas(),
+        this.getAllReservas
+      );
   }
   getAvailableHours(req, res) {
     const controller = new ReservaController();

@@ -67,14 +67,22 @@ class ReservaValidation {
           "number.base": "Debe ingresar un número válido.",
           "any.required": "El servicio es obligatorio.",
         }),
-        id_cancha: Joi.number().positive().required().messages({
-          "number.base": "Debe ingresar un número válido.",
-          "any.required": "La cancha es obligatoria.",
-        }),
-        id_user: Joi.number().positive().required().messages({
-          "number.base": "Debe ingresar un número válido.",
-          "any.required": "El usuario es obligatorio.",
-        }),
+        id_cancha: Joi.array()
+          .items(
+            Joi.number().positive().required().messages({
+              "number.base": "Cada ID de cancha debe ser un número válido.",
+              "number.positive":
+                "Cada ID de cancha debe ser un número positivo.",
+              "any.required": "Cada cancha es obligatoria.",
+            })
+          )
+          .min(1)
+          .required()
+          .messages({
+            "array.base": "Las canchas deben ser un array de números.",
+            "array.min": "Debe seleccionar al menos una cancha.",
+            "any.required": "Las canchas son obligatorias.",
+          }),
       }),
     });
   }
@@ -85,12 +93,12 @@ class ReservaValidation {
         page: Joi.number().min(0).optional().messages({
           "number.base": "La página debe ser un número.",
           "number.integer": "La página debe ser un número entero.",
-          "number.min": "La página no puede ser menor que 0."
+          "number.min": "La página no puede ser menor que 0.",
         }),
         limit: Joi.number().positive().optional().messages({
           "number.base": "El límite debe ser un número.",
           "number.integer": "El límite debe ser un número entero.",
-          "number.positive": "El límite debe ser un número positivo."
+          "number.positive": "El límite debe ser un número positivo.",
         }),
       }),
     });
@@ -102,8 +110,8 @@ class ReservaValidation {
         id: Joi.number().min(1).optional().messages({
           "number.base": "El ID debe ser un número.",
           "number.integer": "El ID debe ser un número entero.",
-          "number.min": "El ID no puede ser menor que 1."
-        })
+          "number.min": "El ID no puede ser menor que 1.",
+        }),
       }),
     });
   }

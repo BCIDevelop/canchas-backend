@@ -33,8 +33,9 @@ class SocketIO {
           socket.data.remainLocked = false;
           socket.data.timerId = setTimeout(() => {
             console.log("Desconectate");
+            socket.emit("userDisconnected");
             socket.disconnect(true);
-          }, 300000); // 5 minutos
+          }, 60000); // 5 minutos
         } else {
           console.log("Desconte en el join");
           socket.disconnect(true);

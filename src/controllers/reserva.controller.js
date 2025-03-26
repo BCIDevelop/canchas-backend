@@ -177,7 +177,6 @@ class ReservaController {
       if (records.length === 0) throw new CanchaDeporteNotFound();
       /* Por cada cancha para ese deporte verificamos la tabla registro */
       const formattedDate = `${String(fechaReserva.getUTCFullYear()).padStart(2, "0")}-${String(fechaReserva.getUTCMonth() + 1).padStart(2, "0")}-${fechaReserva.getUTCDate()}`;
-      console.log(formattedDate);
       const canchasPermitidas = records.map((record) => record.id_cancha);
       const conditions = canchasPermitidas.map((cancha_id) => ({
         fecha: formattedDate,
@@ -245,37 +244,37 @@ class ReservaController {
 
       /* Juntamos las horas de las canchas para ver la disponibilidad del deporte para esa instalacion */
       const hourCanchas = {
-        "00": null,
-        "01": null,
-        "02": null,
-        "03": null,
-        "04": null,
-        "05": null,
-        "06": null,
-        "07": null,
-        "08": null,
-        "09": null,
-        10: null,
-        11: null,
-        12: null,
-        13: null,
-        14: null,
-        15: null,
-        16: null,
-        17: null,
-        18: null,
-        19: null,
-        20: null,
-        21: null,
-        22: null,
-        23: null,
+        "00": [],
+        "01": [],
+        "02": [],
+        "03": [],
+        "04": [],
+        "05": [],
+        "06": [],
+        "07": [],
+        "08": [],
+        "09": [],
+        10: [],
+        11: [],
+        12: [],
+        13: [],
+        14: [],
+        15: [],
+        16: [],
+        17: [],
+        18: [],
+        19: [],
+        20: [],
+        21: [],
+        22: [],
+        23: [],
       };
       const reducedHours = combinedHours.reduce(
         (acc, curr) => {
           const key = Object.keys(curr)[0];
           this.horasDisponibles.forEach((hora) => {
             if (curr[key][hora]) {
-              hourCanchas[hora] = key;
+              hourCanchas[hora].push(key);
               acc[hora] = true;
             }
           });
@@ -283,6 +282,7 @@ class ReservaController {
         },
         Object.fromEntries(this.horasDisponibles.map((hora) => [hora, false])) // Asegurar que todas las claves sean strings
       );
+      console.log(hourCanchas);
       /* Enviamos solo las horas que estan disponibles para ese deporte */
       const availabeHoursResult = Object.entries(reducedHours).flatMap(
         ([hour, available]) =>
@@ -299,7 +299,8 @@ class ReservaController {
     }
   }
   async makeReservation(req, res) {
-    const { date, id_user, id_cancha, id_instalacion, hours } = req.body;
+    const { date, id_cancha, id_instalacion, hours } = req.body;
+    const id_user = req.current_user;
     try {
       const fechaReserva = new Date(date);
       const formattedDate = `${String(fechaReserva.getUTCFullYear()).padStart(2, "0")}-${String(fechaReserva.getUTCMonth() + 1).padStart(2, "0")}-${fechaReserva.getUTCDate()}`;
@@ -317,7 +318,9 @@ class ReservaController {
       const recordReserva = await this.model.findAll({
         where: {
           fecha: formattedDate,
-          id_cancha,
+          id_cancha: {
+            [Op.in]: id_cancha,
+          },
           id_instalacion,
         },
       });
@@ -326,29 +329,35 @@ class ReservaController {
         new Date().getTime() + this.utcOffset * 60 * 60 * 1000
       );
       nowUTC5.setDate(nowUTC5.getDate() - 1);
+      let canchas = [...id_cancha];
       if (recordReserva.length > 0) {
-        recordReserva
-          .filter((record) => {
-            const fechaCreacion = tranformDateUTCTarget(
-              record.created_at,
-              this.utcOffset
-            );
-            return record.pagado || fechaCreacion >= nowUTC5;
-          })
-          .forEach((record) => {
-            const hoursReservadas = record.hours;
-            hours.forEach((hour) => {
-              if (hoursReservadas.includes(hour)) {
-                throw new ReservaTaken();
-              }
-            });
+        const reservasFiltered = recordReserva.filter((record) => {
+          const fechaCreacion = tranformDateUTCTarget(
+            record.created_at,
+            this.utcOffset
+          );
+          return record.pagado || fechaCreacion >= nowUTC5;
+        });
+
+        for (const reserva of reservasFiltered) {
+          const hoursReservadas = reserva.hours;
+          const canchitaId = reserva.id_cancha;
+          if (!canchas.includes(canchitaId)) continue;
+          hours.forEach((hour) => {
+            if (hoursReservadas.includes(hour)) {
+              canchas = canchas.filter((canchita) => canchita !== canchitaId);
+            }
           });
+          if (canchas.length === 0) {
+            throw new ReservaTaken();
+          }
+        }
       }
       /* Creamos la reserva */
       const resultReserva = await this.model.create({
         fecha: fechaReserva.toISOString().split("T")[0],
         id_user,
-        id_cancha,
+        id_cancha: canchas[0],
         id_instalacion,
         hours,
       });
