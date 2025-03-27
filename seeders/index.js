@@ -11,6 +11,7 @@ const order = [
   "deportes.seed.js",
   "reservas.seed.js",
   "cancha_deporte.seed.js",
+  "prices.seed.js",
 ];
 async function runSeeders() {
   for (const file of order) {

@@ -202,6 +202,7 @@ class ReservaController {
         },
       });
 
+      console.log(JSON.stringify(reservasRecords, null, 2));
       /* Para cada cancha crearemos un array de disponibilidad para luego hacer un reduce y ver si la horas estan dispibles */
       const setHorarioDeporte = new Set();
 
@@ -230,6 +231,7 @@ class ReservaController {
           [cancha_id]: hours,
         };
       });
+      console.log(combinedHours);
       /* Finalmente eliminamos las horas reservadas para cada cancha */
       reservasRecords.forEach((reserva) => {
         const cancha_id = reserva.id_cancha;
@@ -237,8 +239,11 @@ class ReservaController {
         const canchaIndex = combinedHours.findIndex(
           (cancha) => cancha[cancha_id]
         );
+        console.log(hours);
+        console.log(canchaIndex);
         hours.forEach((hour) => {
-          combinedHours[canchaIndex][cancha_id][hour] = false;
+          combinedHours[canchaIndex][cancha_id][String(hour).padStart(2, "0")] =
+            false;
         });
       });
 
@@ -304,16 +309,18 @@ class ReservaController {
     try {
       const fechaReserva = new Date(date);
       const formattedDate = `${String(fechaReserva.getUTCFullYear()).padStart(2, "0")}-${String(fechaReserva.getUTCMonth() + 1).padStart(2, "0")}-${fechaReserva.getUTCDate()}`;
-
       /* Primero verificamos que el horario este disponible para esa fecha */
-
-      const hoursSchedule =
-        ReservaController.horariosData[id_cancha][formattedDate];
-      hours.forEach((hour) => {
-        if (!hoursSchedule[hour]) {
-          throw new ReservaTaken();
-        }
+      id_cancha.forEach((cancha_id) => {
+        const hoursSchedule =
+          ReservaController.horariosData[cancha_id][formattedDate];
+        hours.forEach((hour) => {
+          if (!hoursSchedule[String(hour).padStart(2, "0")]) {
+            console.log("Reserva tomada por schedule");
+            throw new ReservaTaken();
+          }
+        });
       });
+      console.log("Pase");
       /* Luego verificamos que no este registrada */
       const recordReserva = await this.model.findAll({
         where: {
@@ -353,12 +360,14 @@ class ReservaController {
           }
         }
       }
+      /* TODO: Obtener el precio del la cancha con el id = 0 */
       /* Creamos la reserva */
       const resultReserva = await this.model.create({
         fecha: fechaReserva.toISOString().split("T")[0],
         id_user,
         id_cancha: canchas[0],
         id_instalacion,
+        count_hours: hours.length,
         hours,
       });
       return res.status(201).json(resultReserva);

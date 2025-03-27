@@ -6,7 +6,7 @@ class ReservaModel extends Model {
       foreignKey: "id_instalacion",
       as: "instalacion",
     });
-    this.belongsTo(models.tipos, {
+    this.belongsTo(models.canchas, {
       foreignKey: "id_cancha",
       as: "cancha",
     });

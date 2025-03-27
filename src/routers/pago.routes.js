@@ -1,13 +1,18 @@
 import { Router } from "express";
 import PagoContoller from "../controllers/pago.controller";
 import generalValidations from "../validations/general.validations";
+import Validations from "../validations/pago.validations";
 class PagoRouter {
   constructor() {
     this.router = Router();
   }
   init() {
     return this.router
-      .get("/sessionToken", this.getSessionToken)
+      .post(
+        "/sessionToken",
+        Validations.getSessionToken(),
+        this.getSessionToken
+      )
       .get("/:id", generalValidations.getById(), this.getPago)
       .post("/transactionToken", this.getTransactionToken);
   }

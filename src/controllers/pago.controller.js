@@ -6,6 +6,10 @@ import {
   PagosNotFound,
   TokenNotObtained,
 } from "../exceptions/pagos.exceptions";
+import {
+  ReservaNotFound,
+  ReservaOutOfDate,
+} from "../exceptions/reservas.exceptions";
 
 const getTokenSecurity = async () => {
   const encodedCredentials = Buffer.from(
@@ -28,10 +32,10 @@ const getTokenSecurity = async () => {
 class PagoContoller {
   constructor() {
     this.model = models.pagos;
+    this.model_reserva = models.reservas;
   }
 
   async getPagoById(req, res) {
-    console.log("entre");
     try {
       const id = req.params.id;
       const response = await this.model.findOne({ where: { id } });
@@ -44,7 +48,7 @@ class PagoContoller {
 
   async getSessionToken(req, res) {
     /* 1er paso getSecurityInfo */
-
+    const { id_reserva } = req.body;
     try {
       const token = await getTokenSecurity();
       /* Verificamos si el token llego correctamente */
@@ -58,11 +62,27 @@ class PagoContoller {
             "Content-Type": "application/json",
           },
         };
+        /* Procedemos a traer los precios segun el id de la cancha y la cantidad de horas que extraemos a su vez de la reserva */
+        const reservaRecord = await this.model_reserva.findOne({
+          where: { id: id_reserva },
+          include: {
+            model: models.canchas,
+            as: "cancha",
+            attributes: ["id"],
+          },
+          attributes: ["fecha", "count_hours", "pagado"],
+        });
+        console.log("Entre");
+        if (!reservaRecord) throw new ReservaNotFound();
+        console.log(JSON.stringify(reservaRecord, 2, null));
+        if (new Date(reservaRecord.fecha) > new Date())
+          throw new ReservaOutOfDate();
+        /* TODO: con las count hour y el precio obtenido de la reserca y cancha obtenemos el monto */
         const data = {
           channel: "web",
           amount: 10.5,
           antifraud: {
-            clientIp: "24.252.107.29",
+            clientIp: "24.252.107.29", // req.ip
             merchantDefineData: {
               MDD4: "integraciones@niubiz.com.pe",
               MDD32: "JD1892639123",

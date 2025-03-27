@@ -5,8 +5,8 @@ export class ReservaOutOfDate {
   }
 }
 export class ReservaTaken {
-  constructor() {
-    this.message = "Hora ya reservada o no disponible";
+  constructor(message) {
+    this.message = message ? message : "Hora ya reservada o no disponible";
     this.code = 400;
   }
 }
